@@ -1,10 +1,12 @@
 # Descrição da Arquitetura do software - Plataforma de Gestão para Grupos de Networking
 
-**Escopo**: Esse documento tem como escopo a descrição da arquitetura da plataforma desenvolvida, seguindo conceitos do padrão ISO/IEC/IEEE 42010, incluindo identificação de stakeholders, concerns, viewpoints e key decisions.
+#### **Escopo**: 
+Esse documento tem como escopo a descrição da arquitetura da plataforma desenvolvida, seguindo conceitos do padrão ISO/IEC/IEEE 42010, incluindo identificação de stakeholders, concerns, viewpoints e key decisions, e UML para criação dos diagramas.
 
-**Contexto**: Esse documento faz parte de um teste técnico no processo seletivo para vaga de desenvolvedor *fullstack* na AG Soluções. 
+#### **Contexto**:
+Esse documento faz parte de um teste técnico no processo seletivo para vaga de desenvolvedor *fullstack* na AG Soluções. 
 
-**Resumo**:
+## **Resumo**:
 Aplicação web para gerenciar membros, presença, indicações e financeiro de um grupo de networking.  
 
 Stack proposta:
@@ -14,11 +16,37 @@ Stack proposta:
 - Testes: **Jest** + **React Testing Library**
 - Autenticação administrativa: Simples via variável de ambiente (token) para o escopo do teste
 
-Diagramas:
+#### Diagramas:
 
-(1)
+- (1) Diagrama de Componentes simplificado
 
-(2)
+```mermaid
+---
+title: Estrutura da aplicação
+---
+
+flowchart LR
+    subgraph Frontend ["Frontend"]
+      FE["React Components"]
+    end
+
+    subgraph Backend ["API Backend"]
+      API["Controllers / Services"]
+    end
+
+    subgraph Database ["BD (PostgreSQL)"]
+      DB["Tabelas e Schemas"]
+    end
+
+    FE <-->|HTTP+JSON| API
+    API -->|Queries SQL| DB
+    DB -->|Dados em tabela| API
+```
+
+- (2) Organização dos componentes React
+
+![Diagrama Frontend](DiagramaFront.png "Organização dos componentes React")
+
 
 ---
 
@@ -49,7 +77,7 @@ Viewpoints de projeção auxiliam arquitetos e projetistas desde o esboço inici
 
 ###### **Justificativas**: 
 - Dados fortemente relacionais (membros, intenções, indicações, pagamentos); 
-- Consultas agregadas facilitam a criação de dashboards e relatórios;
+- O uso de consultas agregadas facilita a criação de dashboards e relatórios;
 - Integridade referencial e flexibilidade com JSONB caso precise de dados semi-estruturados;
 
 ###### **Concerns**: 
@@ -71,7 +99,28 @@ Funcionalidade, uso, propriedades do sistema, limitações conhecidas, estrutura
 - Decisão tomada e aprovada antes da fase de implementação do sistema. Não foi alterada.
 
 ###### **Visualização da arquitetura**
-(Diagrama)
+```mermaid
+---
+title: Estrutura da aplicação
+---
+
+flowchart LR
+    subgraph Frontend ["Frontend"]
+      FE["React Components"]
+    end
+
+    subgraph Backend ["API Backend"]
+      API["Controllers / Services"]
+    end
+
+    subgraph Database ["BD (PostgreSQL)"]
+      DB["Tabelas e Schemas"]
+    end
+
+    FE <-->|HTTP+JSON| API
+    API -->|Queries SQL| DB
+    DB -->|Dados em tabela| API
+```
 
 ## 2. Ponto de vista (viewpoint) - Produto
 
@@ -84,21 +133,23 @@ Funcionalidade, uso, propriedades do sistema, limitações conhecidas, estrutura
 - Gestores
 
 ### **Concerns**: 
-Funcionalidade, uso, recursos do sistema, propriedades do sistema, estrutura, comportamento, desempenho, confiabilidade, segurança, complexidade, prazo, qualidade de serviço, modularidade, garantia e manutenção.
+Funcionalidade, recursos do sistema, estrutura, desempenho, confiabilidade, segurança, custo, qualidade de serviço, modularidade, garantia, objetivos e estratégias de negócio, experiência do cliente, manutenção.
 
-### **Constraints**: 
-  - Desenvolvedor: Funcionalidade, desempenho, uso, estrutura, segurança, modularidade, complexidade, recursos do sistema, propriedades do sistema, comportamento, manutenção, prazo.
-  - Avaliadores: ...
+### **Constraints**:
+  - Desenvolvedores: Funcionalidade, desempenho, uso, segurança, modularidade, recursos do sistema, experiência do cliente, manutenção, estrutura.
+  - Usuários: Funcionalidade, desempenho, qualidade do serviço, confiabilidade.
+  - Gestores: Custo, objetivos e estratégias de negócio, garantia.
 
 ### **Razão da inclusão do ponto de vista**
-Esse ponto de vista foi incluído para mostrar e documentar a estrutura do sistema, auxiliando o desenvolvedor durante o desenvolvimento e os avaliadores durante a avaliação.
+Esse ponto de vista foi incluído para mostrar como é o produto final, seus usos e suas funcionalidades.
 
 ### **Propósito**: 
 - Projeção
 Viewpoints de projeção auxiliam arquitetos e projetistas desde o esboço inicial até a projeção detalhada.
 
-### **Nível de abstração**: 
-Detalhes e Coerência
+- Decisão
+Viewpoints de decisão auxiliam gerentes no processo de tomada de decisão,
+oferecendo um entendimento das relações multi-domínio.
 
 ### **Decisões-chave (key decisions) do ponto de vista**:
 
@@ -123,33 +174,4 @@ Funcionalidade, recursos do sistema, propriedades do sistema, estrutura,complexi
 - Decisão tomada e aprovada no início da fase de implementação do sistema. Não foi alterada.
 
 ###### **Visualização da arquitetura**
-(Diagrama)
-
-
----
-
-## 2. Diagramas da arquitetura
-```mermaid
-flowchart TB
-  subgraph Frontend [Frontend - Next.js]
-    FE1[Public Pages<br/>- Página de Intenção<br/>- Página de Cadastro com Token]
-    FE2[Área Administrador<br/>- Lista Intenções<br/>- Aprovar/Recusar]
-    FE3[Área Membro opcional<br/>- Dashboard/Indicações]
-  end
-
-  subgraph API [Backend: API Node/Express]
-    API1[/REST endpoints/]
-  end
-
-  subgraph DB [PostgreSQL]
-    DB1[(Tabelas)]
-  end
-
-  Frontend -->|HTTPS JSON| API
-  API -->|SQL| DB
-  API -->|Env/SMTP Mock| Mailer[(Simulação de envio de e-mail)]
-
-  style Frontend fill:#5B8,stroke:#333,stroke-width:1px
-  style API fill:#ff9,stroke:#333,stroke-width:1px
-  style DB fill:#9ff,stroke:#333,stroke-width:1px
-```
+![Diagrama de casos de uso](CasosDeUso.png "Diagrama de casos de uso da aplicação")
