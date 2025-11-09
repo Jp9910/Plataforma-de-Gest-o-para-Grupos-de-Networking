@@ -1,7 +1,7 @@
 # Descrição da Arquitetura do software - Plataforma de Gestão para Grupos de Networking
 
 #### **Escopo**: 
-Esse documento tem como escopo a descrição da arquitetura da plataforma desenvolvida, seguindo conceitos do padrão ISO/IEC/IEEE 42010, incluindo identificação de stakeholders, concerns, viewpoints e key decisions, e UML para criação dos diagramas.
+Esse documento tem como escopo a descrição da arquitetura da plataforma desenvolvida, seguindo conceitos do padrão ISO/IEC/IEEE 42010, e usando UML para a criação dos diagramas.
 
 #### **Contexto**:
 Esse documento faz parte de um teste técnico no processo seletivo para vaga de desenvolvedor *fullstack* na AG Soluções. 
@@ -12,13 +12,13 @@ Aplicação web para gerenciar membros, presença, indicações e financeiro de 
 Stack proposta:
 - Frontend: **Next.js** e **React**
 - Backend: **Node.js** e **Express**
-- Banco de dados: **PostgreSQL** [(Justificativas abaixo)](#Justificativas)
+- Banco de dados: **Relacional - PostgreSQL** [(Justificativas abaixo)](#Justificativas)
 - Testes: **Jest** + **React Testing Library**
 - Autenticação administrativa: Simples via variável de ambiente (token) para o escopo do teste
 
 #### Diagramas:
 
-- (1) Diagrama de Componentes simplificado
+- (1) Diagrama de Componentes da aplicação
 
 ```mermaid
 ---
@@ -26,12 +26,12 @@ title: Estrutura da aplicação
 ---
 
 flowchart LR
-    subgraph Frontend ["Frontend"]
-      FE["React Components"]
+    subgraph Frontend ["Frontend (NextJS)"]
+      FE["Componentes React"]
     end
 
-    subgraph Backend ["API Backend"]
-      API["Controllers / Services"]
+    subgraph Backend ["Backend (Express)"]
+      API["Controllers e Services"]
     end
 
     subgraph Database ["BD (PostgreSQL)"]
@@ -43,10 +43,46 @@ flowchart LR
     DB -->|Dados em tabela| API
 ```
 
-- (2) Organização dos componentes React
+- (2) Organização dos componentes React (Representação Textual)
+```
+/src
+    /assets
+        ...
+    /components
+        /forms
+            ...
+        /ui
+            /botao
+                ...
+            /modal
+                ...
+            /textField
+                ...
+            /select
+                ...
+            ...
+        /tables
+            ...
+    /containers
+        ...
+    /states
+        ...
+    /pages
+        ...
+    /services
+        ...
+    /utils
+        ...
+```
+
+- (3) Organização dos componentes React (Representação por Diagrama de Pacotes)
 
 ![Diagrama Frontend](DiagramaFront.png "Organização dos componentes React")
 
+
+- (4) Diagrama Entidade-Relacionamento (Representação do banco de dados)
+
+![Diagrama ER](DiagramaER.png "Diagrama Entidade-Relacionamento")
 
 ---
 
@@ -98,19 +134,43 @@ Funcionalidade, uso, propriedades do sistema, limitações conhecidas, estrutura
 ###### **Tempos da decisão**: 
 - Decisão tomada e aprovada antes da fase de implementação do sistema. Não foi alterada.
 
-###### **Visualização da arquitetura**
+##### Decisão 2: **Framework Backend - Express**
+
+###### **Justificativas**: 
+- Pela natureza da aplicação ser simples, Express é uma boa escolha pois proporciona um *framework* minimalista, rápido, e com estrutura flexível; 
+- Desenvolvedor possui conhecimentos prévios com o *framework* Express
+
+###### **Concerns**: 
+Funcionalidade, uso, propriedades do sistema, estrutura, desempenho, complexidade, evolutibilidade, prazo, manutenção, flexibilidade.
+
+###### **Responsável pela decisão**: 
+- Desenvolvedor
+
+###### **Alternativas consideradas**: 
+- NestJS
+- API Routes do NextJS
+
+###### **Consequências**: 
+- Backend customizável, simples e rápido; 
+- Implementação rápida e sólida devido ao conhecimento prévio do desenvolvedor.
+
+###### **Tempos da decisão**: 
+- Decisão tomada e aprovada antes da fase de implementação do sistema. Não foi alterada.
+
+### **Visualização da arquitetura**
+
 ```mermaid
 ---
 title: Estrutura da aplicação
 ---
 
 flowchart LR
-    subgraph Frontend ["Frontend"]
-      FE["React Components"]
+    subgraph Frontend ["Frontend (NextJS)"]
+      FE["Componentes React"]
     end
 
-    subgraph Backend ["API Backend"]
-      API["Controllers / Services"]
+    subgraph Backend ["Backend (Express)"]
+      API["Controllers e Services"]
     end
 
     subgraph Database ["BD (PostgreSQL)"]
@@ -128,7 +188,7 @@ flowchart LR
 - Plataforma Web de gestão para grupos de *networking* 
 
 ### **Stakeholders:** 
-- Desenvolvedor
+- Desenvolvedor(es)
 - Usuários
 - Gestores
 
