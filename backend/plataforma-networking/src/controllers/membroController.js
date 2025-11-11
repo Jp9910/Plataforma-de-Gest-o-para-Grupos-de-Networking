@@ -25,9 +25,9 @@ class MembroController {
      * @param {Express.NextFunction} next
      */
     static async cadastrarMembro(req, res, next) {
-        const { nome, email, empresa, telefone, cargo } = req.body;
+        const { nome, email, empresa, telefone, cargo, token } = req.body;
         try {
-            const result = await membroService.criarMembro(nome, email, empresa, telefone, cargo)
+            const result = await membroService.criarMembro(token, nome, email, empresa, telefone, cargo)
             res.status(201).json(result.rows[0]);
         } catch (err) {
             console.error('Erro ao criar intenção:', err);

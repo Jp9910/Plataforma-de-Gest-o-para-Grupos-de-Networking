@@ -1,9 +1,8 @@
 CREATE TABLE IF NOT EXISTS usuarios (
   id SERIAL PRIMARY KEY,
   nome VARCHAR(200) NOT NULL,
-  email VARCHAR(200) NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now(),
-  UNIQUE (email)
+  email VARCHAR(200) UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS intencoes (
@@ -24,7 +23,7 @@ CREATE TABLE IF NOT EXISTS membros (
   telefone VARCHAR(30),
   empresa VARCHAR(60),
   cargo VARCHAR(100),
-  joined_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   is_active BOOLEAN DEFAULT true
 );
 

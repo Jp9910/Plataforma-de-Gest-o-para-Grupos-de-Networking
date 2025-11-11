@@ -21,6 +21,7 @@ const validacaoMembro = [
     body('telefone').optional().isMobilePhone().withMessage('Telefone inválido'),
     body('empresa').notEmpty().withMessage('Empresa não foi preenchido'),
     body('cargo').optional().isString().isLength({ min: 2 }).withMessage('Cargo precisa ter no mínimo 2 caracteres'),
+    body('token').isString().isLength({ min: 64, max: 64 }).withMessage('Token inválido'),
     funcaoErro
 ]
 
