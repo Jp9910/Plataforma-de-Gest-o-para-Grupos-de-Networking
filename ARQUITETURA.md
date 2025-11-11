@@ -98,7 +98,7 @@ flowchart LR
 Funcionalidade, uso, recursos do sistema, propriedades do sistema, estrutura, comportamento, desempenho, confiabilidade, segurança, complexidade, prazo, qualidade de serviço, modularidade, garantia e manutenção.
 
 ### **Constraints**: 
-  - Desenvolvedores: Funcionalidade, desempenho, uso, estrutura, segurança, modularidade, complexidade, recursos do sistema, propriedades do sistema, comportamento, manutenção, prazo.
+  - Desenvolvedor(es): Funcionalidade, desempenho, uso, estrutura, segurança, modularidade, complexidade, recursos do sistema, propriedades do sistema, comportamento, manutenção, prazo.
 
 ### **Razão da inclusão do ponto de vista**
 Esse ponto de vista foi incluído para mostrar e documentar a estrutura do sistema, auxiliando desenvolvedores.
@@ -196,7 +196,7 @@ flowchart LR
 Funcionalidade, recursos do sistema, estrutura, desempenho, confiabilidade, segurança, custo, qualidade de serviço, modularidade, garantia, objetivos e estratégias de negócio, experiência do cliente, manutenção.
 
 ### **Constraints**:
-  - Desenvolvedores: Funcionalidade, desempenho, uso, segurança, modularidade, recursos do sistema, experiência do cliente, manutenção, estrutura.
+  - Desenvolvedor(es): Funcionalidade, desempenho, uso, segurança, modularidade, recursos do sistema, experiência do cliente, manutenção, estrutura.
   - Usuários: Funcionalidade, desempenho, qualidade do serviço, confiabilidade.
   - Gestores: Custo, objetivos e estratégias de negócio, garantia.
 
@@ -216,7 +216,7 @@ oferecendo um entendimento das relações multi-domínio.
 ##### Decisão 1: Módulo opcional - Sistema de Indicações
 
 ###### **Justificativas**: 
-- 
+- As funcionalidades do sistema de indicações são mais importantes para a completude do sistema. 
 
 ###### **Concerns**: 
 Funcionalidade, recursos do sistema, propriedades do sistema, estrutura,complexidade.
@@ -225,13 +225,13 @@ Funcionalidade, recursos do sistema, propriedades do sistema, estrutura,complexi
 - Desenvolvedor
 
 ###### **Alternativas consideradas**: 
-- Dashboard de Performance
+- Módulo de Dashboard de Performance
 
 ###### **Consequências**: 
-- 
+- Usuários membros podem cadastrar indicações
 
 ###### **Tempos da decisão**: 
 - Decisão tomada e aprovada no início da fase de implementação do sistema. Não foi alterada.
 
 ###### **Visualização da arquitetura**
-![Diagrama de casos de uso](CasosDeUso.png "Diagrama de casos de uso da aplicação")
+![Diagrama de casos de uso](CasosDeUso2.png "Diagrama de casos de uso da aplicação")
