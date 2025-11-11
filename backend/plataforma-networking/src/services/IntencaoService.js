@@ -1,7 +1,6 @@
 import crypto from 'crypto'
 import pool from '../config/conexaoBD.js';
-import ErroBadRequest from '../../erros/erroBadRequest.js'
-import ErroNaoEncontrado from '../../erros/erroNaoEncontrado.js'
+import ErroNaoEncontrado from '../erros/erroNaoEncontrado.js'
 
 function gerarToken() {
     return crypto.randomBytes(32).toString('hex');

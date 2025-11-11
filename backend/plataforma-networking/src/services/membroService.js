@@ -1,5 +1,5 @@
 import pool from '../config/conexaoBD.js';
-import ErroBadRequest from '../../erros/erroBadRequest.js'
+import ErroBadRequest from '../erros/erroBadRequest.js'
 
 class MembroService {
 
@@ -10,6 +10,8 @@ class MembroService {
     static async buscarMembros() {
         const result = await pool.query('SELECT * FROM membros ORDER BY created_at DESC');
         return result
+        // const result = await pool.query('SELECT * FROM convites ORDER BY created_at DESC');
+        // return result
     }
 
     /**
