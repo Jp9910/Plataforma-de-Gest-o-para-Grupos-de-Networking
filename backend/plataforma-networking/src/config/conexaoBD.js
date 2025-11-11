@@ -21,6 +21,7 @@ pool.on('error', (err, client) => {
   process.exit(-1)
 })
  
-console.log(await pool.query('SELECT NOW()'))
+// testar o BD
+//console.log(await pool.query('SELECT NOW()'))
 
 export default pool

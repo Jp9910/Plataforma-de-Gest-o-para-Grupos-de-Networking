@@ -1,5 +1,7 @@
 import crypto from 'crypto'
 import pool from '../config/conexaoBD.js';
+import ErroBadRequest from '../../erros/erroBadRequest.js'
+import ErroNaoEncontrado from '../../erros/erroNaoEncontrado.js'
 
 function gerarToken() {
     return crypto.randomBytes(32).toString('hex');
@@ -53,9 +55,9 @@ class IntencaoService {
                 [idIntencao]
             );
 
+            // caso não exista, levantar erro
             if (intencaoRes.rowCount === 0) {
-                await client.query('ROLLBACK');
-                return { error: 'Intenção não encontrada', statusCode: 404 };
+                throw new ErroNaoEncontrado('Intenção não encontrada');
             }
 
             const intencao = intencaoRes.rows[0];
@@ -68,9 +70,9 @@ class IntencaoService {
 
             let convite = null;
             if (bool_aprovar) {
-                // tenta inserir um invite; se já existir (unique intencao), evitamos duplicata
                 const token = gerarToken();
                 const expira_em = new Date(Date.now() + horas_ate_expirar * 3600 * 1000);
+                // inserir convite não exista
                 const insertSql = `
                     INSERT INTO convites (intencao_id, token, expira_em)
                     VALUES ($1, $2, $3)
