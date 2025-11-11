@@ -1,4 +1,3 @@
-// tests/unitarios/controllers/intencaoController.test.js
 import { jest } from '@jest/globals';
 import IntencaoController from '../../../src/controllers/intencaoController.js';
 import intencaoService from '../../../src/services/IntencaoService.js';
@@ -17,7 +16,7 @@ describe('IntencaoController', () => {
 
         req = { body: {}, params: {} };
         res = {
-            status: jest.fn().mockReturnThis(), // permite chaining .status(...).json(...)
+            status: jest.fn().mockReturnThis(), // permite chaining .status().json()
             json: jest.fn().mockReturnThis()
         };
         next = jest.fn();
@@ -29,7 +28,7 @@ describe('IntencaoController', () => {
 
     describe('listarIntencoes', () => {
         test('deve retornar os dadosMock com status 200', async () => {
-            const dadosMock = [{ id: 1, nome: 'João' }, { id: 2, nome: 'Maria' }];
+            const dadosMock = [{ id: 1, nome: 'João', email: "joao@email.com", empresa: "ABCD" }, { id: 2, nome: 'Maria', email: "maria@email.br", empresa: "EFGH" }];
             intencaoService.buscarIntencoes.mockResolvedValue({ rows: dadosMock }); // mockar resultado da funçao buscarIntencoes
 
             await IntencaoController.listarIntencoes(req, res, next);
@@ -71,7 +70,7 @@ describe('IntencaoController', () => {
 
         test('em caso de erro deve chamar next(erro)', async () => {
             req.body = { nome: 'João' };
-            const erro = new Error('create fail');
+            const erro = new Error('falha ao criar intencao');
             intencaoService.criarIntencao.mockRejectedValue(erro);
 
             await IntencaoController.cadastrarIntencao(req, res, next);

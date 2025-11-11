@@ -1,4 +1,3 @@
-import pool from "../config/conexaoBD.js"
 import intencaoService from "../services/IntencaoService.js"
 
 class IntencaoController {
