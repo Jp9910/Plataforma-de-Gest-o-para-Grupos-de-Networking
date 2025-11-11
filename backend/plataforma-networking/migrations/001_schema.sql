@@ -6,6 +6,17 @@ CREATE TABLE IF NOT EXISTS usuarios (
   UNIQUE (email)
 );
 
+CREATE TABLE IF NOT EXISTS intencoes (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(200) NOT NULL,
+  email VARCHAR(200) NOT NULL,
+  empresa VARCHAR(60) NOT NULL,
+  motivo_participar TEXT,
+  status VARCHAR(20) DEFAULT 'pendente', -- pendente, aprovado, rejeitado
+  comentario_admin TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
 CREATE TABLE IF NOT EXISTS membros (
   id SERIAL PRIMARY KEY,
   nome VARCHAR(200) NOT NULL,
@@ -17,18 +28,7 @@ CREATE TABLE IF NOT EXISTS membros (
   is_active BOOLEAN DEFAULT true
 );
 
-CREATE TABLE intencoes (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(200) NOT NULL,
-  email VARCHAR(200) NOT NULL,
-  empresa VARCHAR(60),
-  motivo_participar TEXT,
-  status VARCHAR(20) DEFAULT 'pendente', -- pendente, aprovado, rejeitado
-  comentario_admin TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
-
-CREATE TABLE convites (
+CREATE TABLE IF NOT EXISTS convites (
   id SERIAL PRIMARY KEY,
   intencao_id INTEGER REFERENCES intencoes(id) ON DELETE SET NULL,
   token VARCHAR(64) UNIQUE NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE convites (
 );
 
 -- Opcao A dos modulos opcionais
-CREATE TABLE indicacoes (
+CREATE TABLE IF NOT EXISTS indicacoes (
   id SERIAL PRIMARY KEY,
   membro_indicador INTEGER REFERENCES membros(id),
   membro_indicado INTEGER REFERENCES membros(id),
