@@ -15,7 +15,7 @@ class IntencaoController {
             res.status(200).json(result.rows);
         } catch (err) {
             console.error('Erro ao buscar intenções:', err);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            next(err)
         }
     }
 
@@ -32,7 +32,7 @@ class IntencaoController {
             res.status(201).json(result.rows[0]);
         } catch (err) {
             console.error('Erro ao criar intenção:', err);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            next(err)
         }
     }
 
@@ -57,7 +57,7 @@ class IntencaoController {
             res.status(204).json({"message": "Status alterado com sucesso"});
         } catch (err) {
             console.error('Erro ao alterar status da intenção:', err);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            next(err)
         }
     }
 }

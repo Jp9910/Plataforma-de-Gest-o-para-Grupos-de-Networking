@@ -14,7 +14,7 @@ class UsuarioController {
             res.json(result.rows);
         } catch (err) {
             console.error('Erro ao buscar usuarios:', err);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            next(err)
         }
     }
 
@@ -35,7 +35,7 @@ class UsuarioController {
             res.status(201).json(result.rows[0]);
         } catch (err) {
             console.error('Erro ao criar usuario:', err);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            next(err)
         }
     }
 }
