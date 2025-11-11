@@ -49,17 +49,18 @@ class IntencaoService {
             await client.query('BEGIN');
 
             // bloqueia a intenção pra evitar race conditions
-            const intencaoRes = await client.query(
+            const resBuscaIntencao = await client.query(
                 'SELECT * FROM intencoes WHERE id = $1 FOR UPDATE',
                 [idIntencao]
             );
 
             // caso não exista, levantar erro
-            if (intencaoRes.rowCount === 0) {
+            if (resBuscaIntencao.rowCount === 0) {
                 throw new ErroNaoEncontrado('Intenção não encontrada');
             }
 
-            const intencao = intencaoRes.rows[0];
+            const intencao = resBuscaIntencao.rowCount > 0 ? resBuscaIntencao.rows[0] : null;
+            
             const novoStatus = bool_aprovar ? 'aprovado' : 'rejeitado';
 
             await client.query(
@@ -82,15 +83,15 @@ class IntencaoService {
                 if (insertRes.rowCount > 0) {
                     convite = insertRes.rows[0];
                 } else {
-                    // caso ja exista, buscar
+                    // não foi inserido pois existia. buscar então
                     const existente = await client.query('SELECT * FROM convites WHERE intencao_id = $1', [idIntencao]);
-                    convite = existente.rows[0] || null;
+                    convite = existente.rowCount > 0 ? existente.rows[0] : null;
                 }
             }
 
             await client.query('COMMIT');
 
-            // retornar a intenção atualizada e o invite
+            // retornar a intenção atualizada e o convite
             const intencaoAtualizada = { ...intencao, status: novoStatus };
             return { intencao: intencaoAtualizada, convite: convite };
         } catch (err) {
