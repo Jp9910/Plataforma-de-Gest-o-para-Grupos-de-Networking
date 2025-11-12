@@ -1,6 +1,7 @@
 import express from "express"
 import UsuarioController from "../controllers/UsuarioController.js"
 import {body, validationResult, query} from "express-validator";
+import { validarRequisicao } from "../middlewares/ValidarRequisicao.js";
 const rotasUsuario = express.Router()
 
 const validacaoUsuario = [
@@ -17,7 +18,7 @@ const validacaoUsuario = [
 
 rotasUsuario.get("/usuarios", UsuarioController.listarUsuarios)
 // rotasUsuario.get("/usuarios/:id", UsuarioController.listarUsuarioPorId)
-rotasUsuario.post("/usuarios", validacaoUsuario, UsuarioController.cadastrarUsuario)
+rotasUsuario.post("/usuarios", validacaoUsuario, validarRequisicao, UsuarioController.cadastrarUsuario)
 // rotasUsuario.put("/usuarios/:id", UsuarioController.atualizarUsuario)
 // rotasUsuario.delete("/usuarios/:id", UsuarioController.removerUsuario)
 // rotasUsuario.delete("/usuarios/removerTodos", UsuarioController.removerTodosOsUsuarios)

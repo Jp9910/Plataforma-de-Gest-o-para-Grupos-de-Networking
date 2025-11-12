@@ -1,6 +1,7 @@
 import express from "express"
 import IntencaoController from "../controllers/intencaoController.js"
 import {body, validationResult, query, param} from "express-validator";
+import { validarRequisicao } from "../middlewares/ValidarRequisicao.js";
 const rotasIntencao = express.Router()
 
 const funcaoErro = (req, res, next) => {
@@ -29,7 +30,7 @@ const validacaoAprovarNegar = [
 ]
 
 rotasIntencao.get("/intencoes", IntencaoController.listarIntencoes)
-rotasIntencao.post("/intencoes", validacaoIntencao, IntencaoController.cadastrarIntencao)
-rotasIntencao.put("/intencoes/:id/status", validacaoAprovarNegar, IntencaoController.alterarStatusIntencao)
+rotasIntencao.post("/intencoes", validacaoIntencao, validarRequisicao, IntencaoController.cadastrarIntencao)
+rotasIntencao.put("/intencoes/:id/status", validacaoAprovarNegar, validarRequisicao, IntencaoController.alterarStatusIntencao)
 
 export default rotasIntencao

@@ -1,6 +1,7 @@
 import express from "express"
 import IndicacaoController from "../controllers/indicacaoController.js";
 import {body, validationResult, param} from "express-validator";
+import { validarRequisicao } from "../middlewares/ValidarRequisicao.js";
 const rotasIndicacao = express.Router()
 
 const funcaoErro = (req, res, next) => {
@@ -30,7 +31,7 @@ const validacaoAlterarStatusIndicacao = [
 ]
 
 rotasIndicacao.get("/indicacoes", IndicacaoController.listarIndicacoes)
-rotasIndicacao.post("/indicacoes", validacaoIndicacao, IndicacaoController.cadastrarIndicacao)
-rotasIndicacao.put("/indicacoes/:id/status", validacaoAlterarStatusIndicacao, IndicacaoController.alterarStatusIndicacao)
+rotasIndicacao.post("/indicacoes", validacaoIndicacao, validarRequisicao, IndicacaoController.cadastrarIndicacao)
+rotasIndicacao.put("/indicacoes/:id/status", validacaoAlterarStatusIndicacao, validarRequisicao, IndicacaoController.alterarStatusIndicacao)
 
 export default rotasIndicacao
