@@ -1,11 +1,66 @@
-get http://localhost:3000/usuarios
+
+get http://localhost:3000/intencoes
 
 ###
-
-post http://localhost:3000/usuarios
+post http://localhost:3000/intencoes
 Content-Type: application/json
 
 {
-    "nome": "",
-    "email": "asdf@email.com2"
+    "nome": "João da Silva",
+    "email": "joao@email.com",
+    "empresa": "Empresa Teste Inc.",
+    "motivo_participar": "motivo qualquer"
+}
+###
+post http://localhost:3000/intencoes
+Content-Type: application/json
+
+{
+    "nome": "Ana Maria",
+    "email": "ana@email.com",
+    "empresa": "Empresa Teste 2",
+    "motivo_participar": "algum motivo"
+}
+
+###
+put http://localhost:3000/intencoes/2/status
+Content-Type: application/json
+
+{
+    "bool_aprovar": true
+}
+
+###
+get http://localhost:3000/membros
+
+###
+post http://localhost:3000/membros
+Content-Type: application/json
+
+{
+    "nome": "Ana maria",
+    "email": "ana@email.com",
+    "empresa": "empresa teste 2",
+    "token": "79116485daa74383594eb1f6a7871d1e07df6b4c06b6ff00efb211cf3817949f"
+}
+
+###
+get http://localhost:3000/indicacoes
+
+###
+post http://localhost:3000/indicacoes
+Content-Type: application/json
+
+{
+    "membro_indicador": 1,
+    "membro_indicado": 2,
+    "empresa": "empresa teste 2",
+    "descricao_oportunidade": "Essa é uma descrição da oportunidade entre os para o membro que está sendo indicado"
+}
+###
+put http://localhost:3000/indicacoes/2/status
+Content-Type: application/json
+
+{
+    "novo_status": "em contato"
 }
