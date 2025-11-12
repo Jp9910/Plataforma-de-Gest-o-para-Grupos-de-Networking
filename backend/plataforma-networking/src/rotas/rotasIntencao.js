@@ -30,6 +30,6 @@ const validacaoAprovarNegar = [
 
 rotasIntencao.get("/intencoes", IntencaoController.listarIntencoes)
 rotasIntencao.post("/intencoes", validacaoIntencao, IntencaoController.cadastrarIntencao)
-rotasIntencao.put("/intencoes/:id", validacaoAprovarNegar, IntencaoController.alterarStatusIntencao)
+rotasIntencao.put("/intencoes/:id/status", validacaoAprovarNegar, IntencaoController.alterarStatusIntencao)
 
 export default rotasIntencao

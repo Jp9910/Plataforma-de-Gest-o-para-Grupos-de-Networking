@@ -36,7 +36,7 @@ class IntencaoController {
     }
 
     /**
-     * @route PUT /intencao/:id
+     * @route PUT /intencao/:id/status
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next

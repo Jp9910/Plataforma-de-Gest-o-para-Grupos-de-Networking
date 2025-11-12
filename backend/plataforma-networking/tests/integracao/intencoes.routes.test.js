@@ -1,31 +1,31 @@
 import { Client } from 'pg'
-import { PostgreSqlContainer }  from "@testcontainers/postgresql";
-import { GenericContainer } from 'testcontainers';
+import { PostgreSqlContainer } from "@testcontainers/postgresql";
 import request from 'supertest';
-import app from '../../src/app.js';
+import fs from 'fs';
+
+let containerPostgres;
+let postgresClient;
+let app;
 
 describe("Intencoes Rotas", () => {
-    let containerPostgres;
 
     beforeAll(async () => {
-        // containerPostgres = await new GenericContainer('postgres', '17')
-        //     .withEnvironment({'POSTGRES_USER': 'test_user', 'POSTGRES_PASSWORD': 'test_senha', 'POSTGRES_DB': 'test_db'})
-        //     .withCopyDirectoriesToContainer([{ // copiar o script sql para a pasta especifica do postgres que rodará o script
-        //         source: "../../initBD",
-        //         target: "/docker-entrypoint-initdb.d"
-        //     }, ])
-        //     .withExposedPorts(5432)
-        //     .start();
-        // const port = containerPostgres.getMappedPort(5432);
-        // const stringConexao = `postgres://test_user:test_senha@localhost:${port}/test_db`;
-
         containerPostgres = await new PostgreSqlContainer("postgres:17-alpine")
             .start()
 
         const stringConexao = containerPostgres.getConnectionUri();
 
+        // cliente independente para o postgres
         postgresClient = new Client({ connectionString: stringConexao });
         await postgresClient.connect();
+
+        // para os testes das rotas, o app deve criar seu proprio cliente/pool quando instanciado a partir dessa env
+        process.env.DATABASE_CONNECTION_STRING = stringConexao;
+        // importar o app apenas depois de definir a variavel dinamicamente
+        ({ default: app } = await import('../../src/app.js'));
+
+        // inicializar bd
+        await executarSqlInit()
     });
 
     beforeEach(async () => {
@@ -35,20 +35,25 @@ describe("Intencoes Rotas", () => {
 
     afterAll(async () => {
         await postgresClient.end()
+        const { default: poolDoApp } = await import('../../src/config/conexaoBD.js'); // importar pool do app para encerrar conexao
+        await poolDoApp.end();
         await containerPostgres.stop();
     });
 
     test('POST /intencoes -> cria intenção e retorna 201 com id', async () => {
-        const payload = { nome: 'João', email: 'joao@email.com', empresa: 'Empresa Qualquer', motivo_participar: 'networking' };
+        const dadosMock = { nome: 'João', email: 'joao@email.com', empresa: 'Empresa Qualquer', motivo_participar: 'networking' };
+        
+        // app deve criar seu proprio cliente para o banco a partir da env que foi definida no beforeAll
         const res = await request(app)
             .post('/intencoes')
-            .send(payload)
+            .send(dadosMock)
             .set('Content-Type', 'application/json');
 
         expect(res.status).toBe(201);
         expect(res.body).toHaveProperty('id');
-        const db = await postgresClient.query('SELECT * FROM intencoes WHERE id = $1', [res.body.id]);
-        expect(db.rowCount).toBe(1);
+        const inserido = await postgresClient.query('SELECT * FROM intencoes WHERE id = $1', [res.body.id]);
+        // console.log(inserido)
+        expect(inserido.rowCount).toBe(1);
     });
 
     test('PUT /intencoes/:id/status aprova intenção e cria convite', async () => {
@@ -69,3 +74,9 @@ describe("Intencoes Rotas", () => {
         expect(inviteRes.rows[0]).toHaveProperty('token');
     });
 });
+
+async function executarSqlInit() {
+    const sqlInit = fs.readFileSync("initBD/001_schema.sql", 'utf8')
+    // console.log(sqlInit)
+    await postgresClient.query(sqlInit);
+}
