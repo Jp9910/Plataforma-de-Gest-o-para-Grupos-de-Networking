@@ -11,12 +11,14 @@ export default function Page() {
     return (
         <div>
             <h1>Cadastro de intenções</h1>
-            <InputTexto label="Nome" placeholder="" required={true} state={stringNome} setState={setStringNome} />
-            <InputTexto label="Email" placeholder="" required={true} state={stringEmail} setState={setStringEmail} />
-            <InputTexto label="Empresa" placeholder="" required={true} state={stringEmpresa} setState={setStringEmpresa} />
-            <InputTexto label="Motivo" placeholder="" required={false} state={stringMotivo} setState={setStringMotivo} />
+            <InputTexto label="Nome" required={true} value={stringNome} setState={setStringNome} />
+            <InputTexto label="Email" placeholder="asdf" required={true} value={stringEmail} setState={setStringEmail} />
+            <InputTexto label="Empresa" placeholder="" required={true} value={stringEmpresa} setState={setStringEmpresa}/>
+            <InputTexto label="Motivo" placeholder="" required={false} value={stringMotivo} setState={setStringMotivo} />
+            <InputTexto setState={()=>{}}/>
 
             <BotaoEstilizado>Cadastrar</BotaoEstilizado>
+            <BotaoEstilizado className="w-20 h-30">Teste</BotaoEstilizado>
         </div>
     );
 }
