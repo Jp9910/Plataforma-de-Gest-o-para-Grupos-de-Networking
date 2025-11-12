@@ -31,7 +31,7 @@ describe('IntencaoService.alterarStatusIntencaoECriarConvite', () => {
 
         mockClient.query
             .mockResolvedValueOnce({}) //begin
-            .mockResolvedValueOnce({ rowCount: 1, rows: [{ id: 1, status: 'pendente' }] }) // mockar valor retornado pelo `SELECT ...`
+            .mockResolvedValueOnce({ rowCount: 1, rows: [{ id: 1, status: 'pendente' }] }) // mockar valor retornado pelo `SELECT intencoes`
             .mockResolvedValueOnce({}) // update
             .mockResolvedValueOnce({ rowCount: 1, rows: [{ id: 10, token: 'abc' }] }) // convite inserido
             .mockResolvedValueOnce({}); // COMMIT 
