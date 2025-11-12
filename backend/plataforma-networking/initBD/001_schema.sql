@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS membros (
   nome VARCHAR(200) NOT NULL,
   email VARCHAR(200) UNIQUE NOT NULL,
   telefone VARCHAR(30),
-  empresa VARCHAR(60),
+  empresa VARCHAR(60) NOT NULL,
   cargo VARCHAR(100),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   is_active BOOLEAN DEFAULT true
@@ -42,8 +42,7 @@ CREATE TABLE IF NOT EXISTS indicacoes (
   membro_indicador INTEGER REFERENCES membros(id),
   membro_indicado INTEGER REFERENCES membros(id),
   empresa VARCHAR(60),
-  informacao_contato TEXT,
-  status VARCHAR(20) DEFAULT 'pending', -- pending, contacted, closed, lost
-  observacao TEXT,
+  descricao_oportunidade TEXT,
+  status VARCHAR(20) DEFAULT 'nova', -- nova, em contato, fechada, recusada
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );

@@ -30,7 +30,7 @@ class MembroController {
             const result = await membroService.criarMembro(token, nome, email, empresa, telefone, cargo)
             res.status(201).json(result.rows[0]);
         } catch (err) {
-            console.error('Erro ao criar intenção:', err);
+            console.error('Erro ao criar membro:', err);
             next(err)
         }
     }
