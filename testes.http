@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-put http://localhost:3000/intencoes/2/status
+put http://localhost:3000/intencoes/5/status
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
     "nome": "Ana maria",
     "email": "ana@email.com",
     "empresa": "empresa teste 2",
-    "token": "79116485daa74383594eb1f6a7871d1e07df6b4c06b6ff00efb211cf3817949f"
+    "token": "144519d449e4852febd110bf88dfe68dd22a8f2c2c92daa74acd2e2dfeae1379"
 }
 
 ###
