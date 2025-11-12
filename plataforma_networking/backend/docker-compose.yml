@@ -30,5 +30,15 @@ services:
       timeout: 2s
       retries: 10
 
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: jops40@hotmail.com
+      PGADMIN_DEFAULT_PASSWORD: senha
+    depends_on:
+      - db-postgres
+
 volumes:
   db-data:

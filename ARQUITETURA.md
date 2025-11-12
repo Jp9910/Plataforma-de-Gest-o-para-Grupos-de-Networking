@@ -1,7 +1,7 @@
 # Descrição da Arquitetura do software - Plataforma de Gestão para Grupos de Networking
 
 #### **Escopo**: 
-Esse documento tem como escopo a descrição da arquitetura da plataforma desenvolvida, seguindo conceitos do padrão ISO/IEC/IEEE 42010, e usando UML para a criação dos diagramas.
+Esse documento tem como escopo a descrição da arquitetura da plataforma desenvolvida, seguindo conceitos do padrão ISO/IEC/IEEE 42010, e usando UML e Mermaid para a criação dos diagramas.
 
 #### **Contexto**:
 Esse documento faz parte de um teste técnico no processo seletivo para vaga de desenvolvedor *fullstack* na AG Soluções. 
@@ -16,9 +16,9 @@ Stack proposta:
 - Testes: **Jest** + **React Testing Library**
 - Autenticação administrativa: Simples via variável de ambiente (token) para o escopo do teste
 
-#### Diagramas:
+#### Entregáveis:
 
-- (1) Diagrama de Componentes da aplicação
+- **(1) Diagrama de Componentes da aplicação**
 
 ```mermaid
 ---
@@ -43,48 +43,63 @@ flowchart LR
     DB -->|Dados em tabela| API
 ```
 
-- (2) Organização dos componentes React (Representação Textual)
+- **(2) Modelo de dados da aplicação**
+Modelo de dados relacional com PostgreSQL. [(Justificativas abaixo)](#Justificativas) 
+Diagrama Entidade-Relacionamento (Representação do banco de dados):
+
+![Diagrama ER](DiagramaERBackground.png "Diagrama Entidade-Relacionamento")
+
+- **(3) Organização dos componentes React**
+O projeto está organizado com pastas claras separadas por responsabilidade, e seguindo os novos padrões da versão 16 do next.js.
+A adoção da versão 16 permite o uso do App Router e de layouts aninhados, o que facilita o reaproveitamento e aninhamento de páginas e componentes. Nessa versão, o roteamento é feito a partir do diretório `/app` e usando o nome dos diretórios filhos que contém arquivos `page.tsx`. Então `/app/intencoes/page.tsx` seria acessado por `nomedoapp.com/intencoes`.
+
+Abaixo está descrita a estrutura de diretórios de forma gráfica:
+
 ```
-/src
-    /assets
-        ...
+/app
+    layout.tsx                # layout root
+    page.tsx                  # pagina root
     /components
-        /forms
+        /ui                   # componentes primitivos
+            botao
+            inputTexto
+            select
+        /features             # componentes separados por domínio
+            /intencoes
+            /indicacoes
+                ...
+        /containers           # componentes que ligam services e hooks à UI
             ...
-        /ui
-            /botao
-                ...
-            /modal
-                ...
-            /textField
-                ...
-            /select
-                ...
-            ...
-        /tables
-            ...
-    /containers
-        ...
-    /states
-        ...
-    /pages
-        ...
-    /services
-        ...
-    /utils
-        ...
+    /intencoes                # estrutura de rotas para paginas de intencoes (next.js v16)
+        layout
+        page
+    /indicacoes               # estrutura de rotas para paginas de indicacoes (next.js v16)
+        layout
+        page
+/public
+    ...
+/services
+    ...
+/utils
+    ...
 ```
 
-- (3) Organização dos componentes React (Representação por Diagrama de Pacotes)
+<!-- ![Diagrama Frontend](DiagramaFront.png "Organização dos componentes React") -->
 
-![Diagrama Frontend](DiagramaFront.png "Organização dos componentes React")
+- **(4) Definição da API** 
 
+GET http://localhost:3000/intencoes
 
-- (4) Diagrama Entidade-Relacionamento (Representação do banco de dados)
+###
+POST http://localhost:3000/intencoes
 
-![Diagrama ER](DiagramaER.png "Diagrama Entidade-Relacionamento")
+###
+PUT http://localhost:3000/intencoes/5/status
+
 
 ---
+# Descrição da arquitetura do software
+
 
 ## 1. Ponto de vista (viewpoint) - Estrutura da aplicação
 
@@ -138,7 +153,8 @@ Funcionalidade, uso, propriedades do sistema, limitações conhecidas, estrutura
 
 ###### **Justificativas**: 
 - Pela natureza da aplicação ser simples, Express é uma boa escolha pois proporciona um *framework* minimalista, rápido, e com estrutura flexível; 
-- Desenvolvedor possui conhecimentos prévios com o *framework* Express
+- Separar o backend do frontend permite melhor escalamento horizontal da aplicação, em contraste com uso de um framework fullstack;
+- Desenvolvedor possui conhecimentos prévios com o *framework* Express.
 
 ###### **Concerns**: 
 Funcionalidade, uso, propriedades do sistema, estrutura, desempenho, complexidade, evolutibilidade, prazo, manutenção, flexibilidade.
@@ -152,7 +168,8 @@ Funcionalidade, uso, propriedades do sistema, estrutura, desempenho, complexidad
 
 ###### **Consequências**: 
 - Backend customizável, simples e rápido; 
-- Implementação rápida e sólida devido ao conhecimento prévio do desenvolvedor.
+- Implementação rápida e sólida devido ao conhecimento prévio do desenvolvedor;
+- Escalamento do backend independe do frontend, e vice-versa.
 
 ###### **Tempos da decisão**: 
 - Decisão tomada e aprovada antes da fase de implementação do sistema. Não foi alterada.
@@ -216,7 +233,8 @@ oferecendo um entendimento das relações multi-domínio.
 ##### Decisão 1: Módulo opcional - Sistema de Indicações
 
 ###### **Justificativas**: 
-- As funcionalidades do sistema de indicações são mais importantes para a completude do sistema. 
+- As funcionalidades do sistema de indicações parecem ser mais importantes para a completude do sistema;
+- Dados necessários para o sistema de indicações já são implementados no módulo de admissão de membros.
 
 ###### **Concerns**: 
 Funcionalidade, recursos do sistema, propriedades do sistema, estrutura,complexidade.
