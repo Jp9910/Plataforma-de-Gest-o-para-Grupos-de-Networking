@@ -1,4 +1,4 @@
-import FormIntencao from "../components/features/intencoes/formIntencao";
+import FormIntencao from "../../components/features/intencoes/formIntencao";
 
 export default function Page() {
     
