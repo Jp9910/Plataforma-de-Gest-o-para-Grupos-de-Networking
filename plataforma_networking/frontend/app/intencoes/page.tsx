@@ -1,10 +1,10 @@
-'use client';
 import FormIntencao from "../components/features/intencoes/formIntencao";
 
 export default function Page() {
     
     return (
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center">
+            <h1 className="text-2xl">Cadastro de intenção</h1>
             <FormIntencao />
         </div>
     );

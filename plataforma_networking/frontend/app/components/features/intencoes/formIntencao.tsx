@@ -19,13 +19,6 @@ export default function FormIntencao() {
         const urlCompleta = "http://".concat(urlApi).concat('/intencoes')
         console.log(urlCompleta)
 
-        // const res = await fetch(`http://localhost:3001/intencoes`)
-        // if (!res.ok) {
-        //     throw new Error(res.statusText);
-        // }
-        // let seila = res.json()
-        // console.log(seila)
-
         fetch(urlCompleta, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })
             .then((res) => {
                 console.log("Resposta:", res)
@@ -34,7 +27,7 @@ export default function FormIntencao() {
                 }
                 return res.json()
             }).then((dados) => {
-                console.log("Resposta da api de pedidos:", dados)
+                console.log("Resposta da api:", dados)
             })
             .catch(error => {
                 console.error("Erro ao enviar formulario de intenção: ", error)
@@ -47,7 +40,6 @@ export default function FormIntencao() {
 
     return (
         <Form onSubmit={enviarForm} action={""}>
-            <h1 className="text-2xl">Cadastro de intenções</h1>
             <InputTexto label="Nome" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
             <InputTexto label="Email" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
             <InputTexto label="Empresa" required={true} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />

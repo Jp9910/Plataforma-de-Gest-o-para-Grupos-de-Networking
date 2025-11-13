@@ -19,7 +19,7 @@ export default function RootLayout({
             >
                 <div className="
                     container 
-                    bg-white 
+                    bg-gray-200 
                     text-gray-900 
                     dark:bg-gray-800 
                     dark:text-white 
@@ -34,6 +34,7 @@ export default function RootLayout({
                     box-border
                     shadow-2xl
                     rounded-2xl
+                    h-dvh
                 ">
                     {children}
                 </div>
