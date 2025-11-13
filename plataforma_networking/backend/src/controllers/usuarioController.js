@@ -1,9 +1,10 @@
 import pool from "../config/conexaoBD.js"
+import "dotenv/config"
 
 class UsuarioController {
 
-    // @route GET /usuarios
     /**
+     * @route GET /usuarios
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
@@ -18,21 +19,22 @@ class UsuarioController {
         }
     }
 
-    // @route POST /usuarios
     /**
+     * @route POST /usuarios/login/admin
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
      */
-    static async cadastrarUsuario(req, res, next) {
-        const { nome, email} = req.body;
+    static async loginAdmin(req, res, next) {
+        const { senha } = req.body;
         try {
-            const result = await pool.query(
-                `INSERT INTO usuarios (nome, email)
-                VALUES ($1, $2) RETURNING *`,
-                [nome, email]
-            );
-            res.status(201).json(result.rows[0]);
+            if (senha === process.env.SENHA_ADMIN) {
+                // normalmente retornaria um token jwt
+                res.status(201).json({message: "senha ok"});
+            }
+            else {
+                res.status(401).json({message: "senha incorreta"});
+            }
         } catch (err) {
             console.error('Erro ao criar usuario:', err);
             next(err)

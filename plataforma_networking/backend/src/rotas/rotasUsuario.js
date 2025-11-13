@@ -1,12 +1,11 @@
 import express from "express"
 import UsuarioController from "../controllers/UsuarioController.js"
-import {body, validationResult, query} from "express-validator";
+import {body, validationResult} from "express-validator";
 import { validarRequisicao } from "../middlewares/ValidarRequisicao.js";
 const rotasUsuario = express.Router()
 
-const validacaoUsuario = [
-    body('nome').isString().isLength({ min: 2 }).withMessage('Nome precisa ter no mínimo 2 caracteres'),
-    body('email').isEmail().withMessage('Email inválido'),
+const validacaoLoginAdmin = [
+    body('senha').isString().withMessage('Senha inválida'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -17,10 +16,6 @@ const validacaoUsuario = [
 ]
 
 rotasUsuario.get("/usuarios", UsuarioController.listarUsuarios)
-// rotasUsuario.get("/usuarios/:id", UsuarioController.listarUsuarioPorId)
-rotasUsuario.post("/usuarios", validacaoUsuario, validarRequisicao, UsuarioController.cadastrarUsuario)
-// rotasUsuario.put("/usuarios/:id", UsuarioController.atualizarUsuario)
-// rotasUsuario.delete("/usuarios/:id", UsuarioController.removerUsuario)
-// rotasUsuario.delete("/usuarios/removerTodos", UsuarioController.removerTodosOsUsuarios)
+rotasUsuario.post("/usuarios/login/admin", validacaoLoginAdmin, validarRequisicao, UsuarioController.loginAdmin)
 
 export default rotasUsuario
