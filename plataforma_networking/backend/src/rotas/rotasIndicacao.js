@@ -31,7 +31,7 @@ const validacaoAlterarStatusIndicacao = [
 ]
 
 rotasIndicacao.get("/indicacoes", IndicacaoController.listarIndicacoes)
-rotasIndicacao.post("/indicacoes", validacaoIndicacao, validarRequisicao, IndicacaoController.cadastrarIndicacao)
+rotasIndicacao.post("/indicacoes/cadastro", validacaoIndicacao, validarRequisicao, IndicacaoController.cadastrarIndicacao)
 rotasIndicacao.put("/indicacoes/:id/status", validacaoAlterarStatusIndicacao, validarRequisicao, IndicacaoController.alterarStatusIndicacao)
 
 export default rotasIndicacao

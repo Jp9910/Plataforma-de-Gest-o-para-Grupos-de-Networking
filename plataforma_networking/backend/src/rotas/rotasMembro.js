@@ -28,7 +28,7 @@ const validacaoCriarMembro = [
 ]
 
 rotasMembro.get("/membros", MembroController.listarMembros)
-rotasMembro.post("/membros", validacaoCriarMembro, validarRequisicao, MembroController.cadastrarMembro)
+rotasMembro.post("/membros/cadastro", validacaoCriarMembro, validarRequisicao, MembroController.cadastrarMembro)
 rotasMembro.post("/membros/login", MembroController.loginMembro)
 
 export default rotasMembro
