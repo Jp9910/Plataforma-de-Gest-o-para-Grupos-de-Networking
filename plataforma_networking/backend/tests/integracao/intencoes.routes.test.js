@@ -40,12 +40,12 @@ describe("Intencoes Rotas", () => {
         await containerPostgres.stop();
     });
 
-    test('POST /intencoes -> cria intenção e retorna 201 com id', async () => {
+    test('POST /intencoes/cadastro -> cria intenção e retorna 201 com id', async () => {
         const dadosMock = { nome: 'João', email: 'joao@email.com', empresa: 'Empresa Qualquer', motivo_participar: 'networking' };
         
         // app deve criar seu proprio cliente para o banco a partir da env que foi definida no beforeAll
         const res = await request(app)
-            .post('/intencoes')
+            .post('/intencoes/cadastro')
             .send(dadosMock)
             .set('Content-Type', 'application/json');
 

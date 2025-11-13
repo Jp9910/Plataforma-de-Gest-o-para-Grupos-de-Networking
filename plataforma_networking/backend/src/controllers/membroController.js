@@ -28,7 +28,7 @@ class MembroController {
         const { nome, email, senha, empresa, telefone, cargo, token } = req.body;
         try {
             const result = await membroService.criarMembro(token, nome, email, senha, empresa, telefone, cargo)
-            res.status(201).json(result.rows[0].id);
+            res.status(201).json({"id":result.rows[0].id});
         } catch (err) {
             console.error('Erro ao criar membro:', err);
             next(err)

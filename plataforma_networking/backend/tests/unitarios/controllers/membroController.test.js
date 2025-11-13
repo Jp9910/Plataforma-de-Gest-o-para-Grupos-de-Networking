@@ -52,14 +52,22 @@ describe('MembroController', () => {
 
     describe('cadastrarMembro', () => {
         test('deve chamar criarMembro e devolver o código 201 com o dado mockado', async () => {
-            req.body = { nome: 'João', email: 'joao@email.com', empresa: 'Empresa Qualquer', telefone: '79 99874 1234', cargo: "CEO", token: "token-abc" };
-            const created = { id: 95, nome: 'João' };
+            req.body = { 
+                nome: 'João', 
+                email: 'joao@email.com', 
+                senha:'senha', 
+                empresa: 'Empresa Qualquer', 
+                telefone: '79 99874 1234', 
+                cargo: "CEO", 
+                token: "token-abc" 
+            };
+            const created = { id: 95 };
             membroService.criarMembro.mockResolvedValue({ rows: [created] });
 
             await membroController.cadastrarMembro(req, res, next);
 
             expect(membroService.criarMembro).toHaveBeenCalledWith(
-                'token-abc', 'João', 'joao@email.com', 'Empresa Qualquer', '79 99874 1234', 'CEO'
+                'token-abc', 'João', 'joao@email.com', 'senha', 'Empresa Qualquer', '79 99874 1234', 'CEO'
             );
             expect(res.status).toHaveBeenCalledWith(201);
             expect(res.json).toHaveBeenCalledWith(created);
