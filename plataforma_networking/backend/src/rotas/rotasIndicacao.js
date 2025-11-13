@@ -9,7 +9,7 @@ const funcaoErro = (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({
             errors: errors.array().map(
-                e => ({ path: e.param, messagem: e.msg })
+                e => ({ path: e.param, message: e.msg })
             ) 
         });
     }

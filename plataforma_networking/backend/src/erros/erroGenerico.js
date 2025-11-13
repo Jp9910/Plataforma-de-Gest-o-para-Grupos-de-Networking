@@ -11,7 +11,7 @@ class ErroGenerico extends Error {
 
     enviarResposta(res) {
         res.status(this.statusCode).send({
-            mensagem: this.message,
+            errors: [{message: this.message}],
             statusCode: this.statusCode
         });
     }

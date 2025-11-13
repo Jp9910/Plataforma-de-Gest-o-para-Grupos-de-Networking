@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS membros (
   nome VARCHAR(200) NOT NULL,
   email VARCHAR(200) UNIQUE NOT NULL,
   telefone VARCHAR(30),
-  empresa VARCHAR(60) NOT NULL,
+  empresa VARCHAR(60),
   cargo VARCHAR(100),
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()

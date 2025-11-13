@@ -9,7 +9,7 @@ const funcaoErro = (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({
             errors: errors.array().map(
-                e => ({ path: e.param, messagem: e.msg })
+                e => ({ path: e.param, message: e.msg })
             ) 
         });
     }
@@ -19,9 +19,9 @@ const funcaoErro = (req, res, next) => {
 const validacaoMembro = [
     body('nome').isString().isLength({ min: 2 }).withMessage('Nome precisa ter no mínimo 2 caracteres'),
     body('email').isEmail().withMessage('Email inválido'),
-    body('telefone').optional().isMobilePhone().withMessage('Telefone inválido'),
-    body('empresa').notEmpty().withMessage('Empresa não foi preenchido'),
-    body('cargo').optional().isString().isLength({ min: 2 }).withMessage('Cargo precisa ter no mínimo 2 caracteres'),
+    body('telefone').optional(),
+    body('empresa').optional(),
+    body('cargo').optional().isString(),
     body('token').isString().isLength({ min: 64, max: 64 }).withMessage('Token inválido'),
     funcaoErro
 ]
