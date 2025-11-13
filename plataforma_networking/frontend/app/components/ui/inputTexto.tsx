@@ -6,6 +6,7 @@ export default function InputTexto(props: {
     required?: boolean,
     value?: string,
     className?: string,
+    disabled?: boolean
     onChange?: React.ChangeEventHandler<HTMLInputElement>,
 }) {
 
@@ -18,7 +19,8 @@ export default function InputTexto(props: {
                 value={props.value} 
                 placeholder={props.placeholder} 
                 onChange={props.onChange}
-                required={props.required || false} 
+                required={props.required || false}
+                disabled={props.disabled || false}
             />
         </div>
     )

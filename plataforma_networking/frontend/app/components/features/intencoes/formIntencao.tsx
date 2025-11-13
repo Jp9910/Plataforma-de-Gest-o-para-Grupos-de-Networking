@@ -40,8 +40,8 @@ export default function FormIntencao() {
 
     return (
         <Form onSubmit={enviarForm} action={""}>
-            <InputTexto label="Nome" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
-            <InputTexto label="Email" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
+            <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
+            <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
             <InputTexto label="Empresa" required={true} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />
             <InputTexto label="Motivo" required={false} value={formDados.motivo} onChange={e => atualizarCampo("motivo", e.target.value)} />
 
