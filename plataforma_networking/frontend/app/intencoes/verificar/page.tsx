@@ -5,6 +5,7 @@ import { Intencao } from "@/app/components/ui/types";
 import { useEffect, useState } from "react";
 
 export default function Page() {
+
     const [intencoes, setIntencoes] = useState<Intencao[]>([]);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
