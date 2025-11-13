@@ -1,5 +1,8 @@
 import pool from '../config/conexaoBD.js';
+import bcrypt from 'bcrypt'
 import ErroBadRequest from '../erros/erroBadRequest.js'
+import ErroNaoAutorizado from '../erros/erroNaoAutorizado.js';
+import jwt from 'jsonwebtoken'
 
 class MembroService {
 
@@ -15,15 +18,47 @@ class MembroService {
     }
 
     /**
+     * Realiza login do membro
+     * @param {string} email
+     * @param {string} senha
+     * @throws {ErroNaoAutorizado}
+     * @returns {string} tokenJWT do usuário autenticado
+     */
+    static async loginMembro(email, senha) {
+        const membroRes = await pool.query('SELECT * FROM membros WHERE email = $1', [email]);
+        if (membroRes.rowCount < 1) {
+            throw new ErroNaoAutorizado('Credenciais inválidas');
+        }
+        const membro = membroRes.rows[0]
+        const match = await bcrypt.compare(senha, membro.senha);
+        
+        if (!match) {
+            throw new ErroNaoAutorizado('Credenciais inválidas');
+        }
+
+        // Generate a JWT token for the authenticated user
+        const token = jwt.sign(
+            { email: email },  // guardar dados no token
+            process.env.JWT_SECRET,
+            { expiresIn: "2h" }
+        );
+        console.log("token:", token)
+        return token;
+    }
+
+    /**
      * Cria uma novo membro
      * 
      * @param {string} nome 
      * @param {string} email 
      * @param {string} empresa
+     * @throws {ErroBadRequest}
      * @returns {Promise<import('pg').QueryResult>} Resultado da query ao banco de dados
      */
-    static async criarMembro(token, nome, email, empresa, telefone, cargo) {
+    static async criarMembro(token, nome, email, senha, empresa, telefone, cargo) {
         const client = await pool.connect();
+        const hashSenha = await bcrypt.hash(senha, 10);
+        console.log(hashSenha)
         try {
             await client.query('BEGIN');
             const conviteRes = await client.query(
@@ -53,9 +88,9 @@ class MembroService {
 
             // criar novo membro
             const resultInsert = await client.query(
-                `INSERT INTO membros (nome, email, empresa, telefone, cargo)
-                VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                [nome, email, empresa, telefone, cargo]
+                `INSERT INTO membros (nome, email, senha, empresa, telefone, cargo)
+                VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+                [nome, email, hashSenha, empresa, telefone, cargo]
             );
 
             await client.query('COMMIT');

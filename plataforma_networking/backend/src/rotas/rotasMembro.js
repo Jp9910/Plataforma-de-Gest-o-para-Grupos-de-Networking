@@ -16,9 +16,10 @@ const funcaoErro = (req, res, next) => {
     next();
 }
 
-const validacaoMembro = [
+const validacaoCriarMembro = [
     body('nome').isString().isLength({ min: 2 }).withMessage('Nome precisa ter no mínimo 2 caracteres'),
     body('email').isEmail().withMessage('Email inválido'),
+    body('senha').isString().isLength({ min: 5 }).withMessage('Senha deve ter no mínimo 5 caracteres'),
     body('telefone').optional(),
     body('empresa').optional(),
     body('cargo').optional().isString(),
@@ -27,6 +28,7 @@ const validacaoMembro = [
 ]
 
 rotasMembro.get("/membros", MembroController.listarMembros)
-rotasMembro.post("/membros", validacaoMembro, validarRequisicao, MembroController.cadastrarMembro)
+rotasMembro.post("/membros", validacaoCriarMembro, validarRequisicao, MembroController.cadastrarMembro)
+rotasMembro.post("/membros/login", MembroController.loginMembro)
 
 export default rotasMembro

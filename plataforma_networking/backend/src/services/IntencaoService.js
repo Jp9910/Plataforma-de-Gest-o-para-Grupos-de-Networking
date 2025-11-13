@@ -41,6 +41,7 @@ class IntencaoService {
      * @param {int} idIntencao id da intenção
      * @param {bool} bool_aprovar se a intenção foi aprovada
      * @param {int} [horas_ate_expirar=72] horas_ate_expirar horas até o convite criado expirar
+     * @throws {ErroNaoEncontrado}
      * @return {Promise<{ intencao: Object, convite: Object|null }>} Objeto contendo a intenção alterada e o convite (convite é null se a intençao foi rejeitada)
      */
     static async alterarStatusIntencaoECriarConvite(idIntencao, bool_aprovar, horas_ate_expirar = 72) {

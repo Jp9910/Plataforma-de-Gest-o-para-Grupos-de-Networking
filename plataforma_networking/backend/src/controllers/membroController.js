@@ -25,12 +25,29 @@ class MembroController {
      * @param {Express.NextFunction} next
      */
     static async cadastrarMembro(req, res, next) {
-        const { nome, email, empresa, telefone, cargo, token } = req.body;
+        const { nome, email, senha, empresa, telefone, cargo, token } = req.body;
         try {
-            const result = await membroService.criarMembro(token, nome, email, empresa, telefone, cargo)
-            res.status(201).json(result.rows[0]);
+            const result = await membroService.criarMembro(token, nome, email, senha, empresa, telefone, cargo)
+            res.status(201).json(result.rows[0].id);
         } catch (err) {
             console.error('Erro ao criar membro:', err);
+            next(err)
+        }
+    }
+
+    /**
+     * @route POST /membro/login
+     * @param {Express.Request} req
+     * @param {Express.Response} res
+     * @param {Express.NextFunction} next
+     */
+    static async loginMembro(req, res, next) {
+        const { email, senha } = req.body;
+        try {
+            const tokenJwt = await membroService.loginMembro(email, senha)
+            res.status(200).json({tokenJwt});
+        } catch (err) {
+            console.error('Erro ao realizar login:', err);
             next(err)
         }
     }
