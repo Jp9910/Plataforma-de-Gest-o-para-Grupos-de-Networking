@@ -14,7 +14,8 @@ Stack proposta:
 - Backend: **Node.js** e **Express**
 - Banco de dados: **Relacional - PostgreSQL** [(Justificativas abaixo)](#Justificativas)
 - Testes: **Jest** + **React Testing Library**
-- Autenticação administrativa: Simples via variável de ambiente (token) para o escopo do teste
+
+Autenticação administrativa: Simples via variável de ambiente (Variável `SENHA_ADMIN` definida no arquivo `.env`) para o escopo do teste
 
 #### Entregáveis:
 
@@ -44,10 +45,12 @@ flowchart LR
 ```
 
 - **(2) Modelo de dados da aplicação**
-Modelo de dados relacional com PostgreSQL. [(Justificativas abaixo)](#Justificativas) 
-Diagrama Entidade-Relacionamento (Representação do banco de dados):
+O modelo de dados da aplicação é relacional, com banco de dados PostgreSQL. [(Justificativas abaixo)](#Justificativas)
+O script SQL usado para criação das tabelas está em `plataforma_networking/backend/initDB/001_schema.sql`
 
-![Diagrama ER](DiagramaERBackground.png "Diagrama Entidade-Relacionamento")
+Abaixo está o Diagrama Entidade-Relacionamento:
+
+![Diagrama ER](DiagramaER.png "Diagrama Entidade-Relacionamento")
 
 - **(3) Organização dos componentes React**
 O projeto está organizado com pastas claras separadas por responsabilidade, e seguindo os novos padrões da versão 16 do next.js.
@@ -252,4 +255,4 @@ Funcionalidade, recursos do sistema, propriedades do sistema, estrutura,complexi
 - Decisão tomada e aprovada no início da fase de implementação do sistema. Não foi alterada.
 
 ###### **Visualização da arquitetura**
-![Diagrama de casos de uso](CasosDeUso2.png "Diagrama de casos de uso da aplicação")
+![Diagrama de casos de uso](CasosDeUso.png "Diagrama de casos de uso da aplicação")
