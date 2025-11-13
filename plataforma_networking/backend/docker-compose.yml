@@ -12,7 +12,7 @@ services:
       npm run dev" 
     env_file: ".env"
     ports:
-      - 3000:3000
+      - 3001:3001
     depends_on:
       - db-postgres
 
@@ -35,7 +35,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: jops40@hotmail.com
+      PGADMIN_DEFAULT_EMAIL: email@teste.com
       PGADMIN_DEFAULT_PASSWORD: senha
     depends_on:
       - db-postgres

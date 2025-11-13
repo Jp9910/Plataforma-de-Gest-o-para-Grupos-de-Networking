@@ -1,8 +1,8 @@
 
-get http://localhost:3000/intencoes
+get http://localhost:3001/intencoes
 
 ###
-post http://localhost:3000/intencoes
+post http://localhost:3001/intencoes
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
     "motivo_participar": "motivo qualquer"
 }
 ###
-post http://localhost:3000/intencoes
+post http://localhost:3001/intencoes
 Content-Type: application/json
 
 {
@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-put http://localhost:3000/intencoes/5/status
+put http://localhost:3001/intencoes/5/status
 Content-Type: application/json
 
 {
@@ -31,10 +31,10 @@ Content-Type: application/json
 }
 
 ###
-get http://localhost:3000/membros
+get http://localhost:3001/membros
 
 ###
-post http://localhost:3000/membros
+post http://localhost:3001/membros
 Content-Type: application/json
 
 {
@@ -45,10 +45,10 @@ Content-Type: application/json
 }
 
 ###
-get http://localhost:3000/indicacoes
+get http://localhost:3001/indicacoes
 
 ###
-post http://localhost:3000/indicacoes
+post http://localhost:3001/indicacoes
 Content-Type: application/json
 
 {
@@ -58,7 +58,7 @@ Content-Type: application/json
     "descricao_oportunidade": "Essa é uma descrição da oportunidade entre os para o membro que está sendo indicado"
 }
 ###
-put http://localhost:3000/indicacoes/2/status
+put http://localhost:3001/indicacoes/2/status
 Content-Type: application/json
 
 {
