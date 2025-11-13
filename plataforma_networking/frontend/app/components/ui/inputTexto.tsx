@@ -6,22 +6,18 @@ export default function InputTexto(props: {
     required?: boolean,
     value?: string,
     className?: string,
-    setState: React.Dispatch<React.SetStateAction<string>>
+    onChange?: React.ChangeEventHandler<HTMLInputElement>,
 }) {
 
-    function aoDigitar(event: React.ChangeEvent<HTMLInputElement>) {
-        props.setState(event.target.value)
-    }
-
     return (
-        <div className="flex">
-            {props.label && <label className="pr-4">{props.label}</label>}
+        <div className="flex flex-col">
+            {props.label && <label className="text-sm -mb-2">{props.label}</label>}
             <input 
                 type="text"
-                className={clsx("outline-2 outline-blue-400 rounded-md py-1", props.className)}
+                className={clsx("outline-2 outline-blue-400 rounded-md py-1 my-2", props.className)}
                 value={props.value} 
                 placeholder={props.placeholder} 
-                onInput={aoDigitar} 
+                onChange={props.onChange}
                 required={props.required || false} 
             />
         </div>
