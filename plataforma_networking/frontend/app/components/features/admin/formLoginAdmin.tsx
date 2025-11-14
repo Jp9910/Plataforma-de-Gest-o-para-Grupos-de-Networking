@@ -6,21 +6,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function FormLoginAdmin() {
+    const [mensagem, setMensagem] = useState('')
     const [senha, setSenha] = useState('')
     const router = useRouter()
 
     async function entrar(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/usuarios/login/admin')
+        const urlCompleta = "http://".concat(urlApi).concat('/admin/login')
         console.log(urlCompleta)
 
         fetch(urlCompleta, { method: "POST", body: JSON.stringify({senha}), headers: { "Content-Type": "application/json" } })
             .then((res) => {
-                console.log("Resposta:", res)
-                if (!res.ok) {
-                    throw new Error(res.statusText);
-                }
                 return res.json()
             }).then((dados) => {
                 console.log("Resposta da api:", dados)
@@ -29,8 +26,10 @@ export default function FormLoginAdmin() {
                 // no session storage
                 if (dados.message === "senha ok") {
                     sessionStorage.setItem("logado", "true")
+                    router.push("/intencoes/verificar")
+                } else {
+                    setMensagem("Senha incorreta")
                 }
-                router.push("/intencoes/verificar")
             })
             .catch(error => {
                 console.error("Erro ao enviar formulario de intenção: ", error)
@@ -41,6 +40,7 @@ export default function FormLoginAdmin() {
         <Form onSubmit={entrar} action={""} className="flex flex-col items-center">
             <InputTexto label="Senha" required={true} value={senha} onChange={e => setSenha(e.target.value)}/>
             <BotaoEstilizado type="submit">Entrar</BotaoEstilizado>
+            {mensagem && <p>{mensagem}</p>}
         </Form>
     );
 }

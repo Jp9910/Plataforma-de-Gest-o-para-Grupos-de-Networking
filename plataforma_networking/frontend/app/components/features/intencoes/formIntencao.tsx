@@ -3,8 +3,11 @@ import Form from "next/form";
 import InputTexto from "../../ui/inputTexto";
 import BotaoEstilizado from "../../ui/botao";
 import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function FormIntencao() {
+    const [erros, setErros] = useState<any[]>([])
+    const [mensagem, setMensagem] = useState('')
     const [formDados, setFormDados] = useState({
         nome: "",
         email: "",
@@ -21,13 +24,18 @@ export default function FormIntencao() {
 
         fetch(urlCompleta, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })
             .then((res) => {
-                console.log("Resposta:", res)
-                if (!res.ok) {
-                    throw new Error(res.statusText);
-                }
                 return res.json()
             }).then((dados) => {
                 console.log("Resposta da api:", dados)
+                if (!dados.errors) {
+                    setErros([])
+                    setMensagem('Intenção cadastrada com sucesso! Um convite será enviado ao seu email caso seja aprovada.')
+                }
+                else {
+                    console.log(dados)
+                    setMensagem('Erro:')
+                    setErros(dados.errors)
+                }
             })
             .catch(error => {
                 console.error("Erro ao enviar formulario de intenção: ", error)
@@ -39,13 +47,22 @@ export default function FormIntencao() {
     }
 
     return (
-        <Form onSubmit={enviarForm} action={""}>
-            <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
-            <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
-            <InputTexto label="Empresa" required={true} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />
-            <InputTexto label="Motivo" required={false} value={formDados.motivo} onChange={e => atualizarCampo("motivo", e.target.value)} />
+            <Form onSubmit={enviarForm} action={""} className="w-80">
+                <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
+                <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
+                <InputTexto label="Empresa" required={false} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />
+                <InputTexto label="Motivo" required={false} value={formDados.motivo} onChange={e => atualizarCampo("motivo", e.target.value)} />
+    
+                <BotaoEstilizado type="submit">Enviar Intenção</BotaoEstilizado>
 
-            <BotaoEstilizado type="submit">Enviar Intenção</BotaoEstilizado>
-        </Form>
+                {/* Feedback para o usuário */}
+                {mensagem && <p>{mensagem}</p>}
+                {erros && erros.length > 0 && 
+                    <div id="status-request" className="flex flex-col items-center my-1">
+                    {erros.map((erro) => {
+                        return <div key={uuidv4()}>{erro.message}</div>
+                    })}
+                </div>}
+            </Form>
     );
 }

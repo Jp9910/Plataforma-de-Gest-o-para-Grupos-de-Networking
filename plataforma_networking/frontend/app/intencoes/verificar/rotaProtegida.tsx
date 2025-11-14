@@ -15,7 +15,7 @@ export default function RotaProtegida({ children }: { children: React.ReactNode 
         if (variavelNoStorage === 'true') {
             setLogado(true);
         } else {
-            router.replace('/login');
+            router.replace('/login/admin');
         }
     }, [router]);
 

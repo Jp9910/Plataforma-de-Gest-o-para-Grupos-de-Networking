@@ -5,6 +5,7 @@ import InputTexto from "../../ui/inputTexto";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
+import { TokenService } from "@/app/services/tokenService";
 
 export default function FormLoginMembro() {
     const [email, setEmail] = useState('')
@@ -25,6 +26,11 @@ export default function FormLoginMembro() {
                 console.log("Resposta da api:", dados)
                 if (!dados.errors) {
                     setErros([])
+                    // guardar token jwt
+                    console.log("dados",dados)
+                    console.log("token:",dados.tokenJwt)
+                    TokenService.salvarToken(dados.tokenJwt)
+                    // redirecionar para outra pagina
                 }
                 else {
                     console.log(dados)
