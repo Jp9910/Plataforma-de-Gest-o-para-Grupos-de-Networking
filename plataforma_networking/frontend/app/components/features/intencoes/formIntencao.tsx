@@ -16,7 +16,7 @@ export default function FormIntencao() {
         event.preventDefault();
         console.log(JSON.parse(JSON.stringify(formDados)));
         const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/intencoes')
+        const urlCompleta = "http://".concat(urlApi).concat('/intencoes/cadastro')
         console.log(urlCompleta)
 
         fetch(urlCompleta, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })

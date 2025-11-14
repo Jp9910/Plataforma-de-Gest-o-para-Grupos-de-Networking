@@ -4,33 +4,32 @@ import BotaoEstilizado from "../../ui/botao";
 import InputTexto from "../../ui/inputTexto";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from 'uuid';
 
-export default function FormLogin() {
+export default function FormLoginMembro() {
+    const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+    const [erros, setErros] = useState<any[]>([])
     const router = useRouter()
 
     async function entrar(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/usuarios/login/admin')
+        const urlCompleta = "http://".concat(urlApi).concat('/membros/login')
         console.log(urlCompleta)
 
-        fetch(urlCompleta, { method: "POST", body: JSON.stringify({senha}), headers: { "Content-Type": "application/json" } })
+        fetch(urlCompleta, { method: "POST", body: JSON.stringify({email,senha}), headers: { "Content-Type": "application/json" } })
             .then((res) => {
-                console.log("Resposta:", res)
-                if (!res.ok) {
-                    throw new Error(res.statusText);
-                }
                 return res.json()
             }).then((dados) => {
                 console.log("Resposta da api:", dados)
-                // normalmente seria retornado o token jwt, que seria salvo num context ou similar.
-                // como não foi implementado login de verdade, vou apenas salvar uma flag
-                // no session storage
-                if (dados.message === "senha ok") {
-                    sessionStorage.setItem("logado", "true")
+                if (!dados.errors) {
+                    setErros([])
                 }
-                router.push("/intencoes/verificar")
+                else {
+                    console.log(dados)
+                    setErros(dados.errors)
+                }
             })
             .catch(error => {
                 console.error("Erro ao enviar formulario de intenção: ", error)
@@ -39,8 +38,17 @@ export default function FormLogin() {
 
     return (
         <Form onSubmit={entrar} action={""} className="flex flex-col items-center">
+            <InputTexto label="Email" required={true} value={email} onChange={e => setEmail(e.target.value)}/>
             <InputTexto label="Senha" required={true} value={senha} onChange={e => setSenha(e.target.value)}/>
             <BotaoEstilizado type="submit">Entrar</BotaoEstilizado>
+
+            {/* Feedback para o usuário */}
+            {erros && erros.length > 0 && 
+                <div id="status-request" className="flex flex-col items-center my-1">
+                {erros.map((erro) => {
+                    return <div key={uuidv4()}>{erro.message}</div>
+                })}
+            </div>}
         </Form>
     );
 }

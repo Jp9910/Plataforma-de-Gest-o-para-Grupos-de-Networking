@@ -11,6 +11,7 @@ export default function FormMembro(props: {token: string|undefined}) {
     const [formDados, setFormDados] = useState({
         nome: "",
         email: "",
+        senha: "",
         telefone: "",
         empresa: "",
         cargo: "",
@@ -20,7 +21,7 @@ export default function FormMembro(props: {token: string|undefined}) {
     async function enviarForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/membros')
+        const urlCompleta = "http://".concat(urlApi).concat('/membros/cadastro')
         console.log(urlCompleta)
 
         fetch(urlCompleta, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })
@@ -48,9 +49,10 @@ export default function FormMembro(props: {token: string|undefined}) {
     }
 
     return (
-        <Form onSubmit={enviarForm} action={""}>
+        <Form onSubmit={enviarForm} action={""} className="min-w-80">
             <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
             <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
+            <InputTexto label="Senha*" required={true} value={formDados.senha} onChange={e => atualizarCampo("senha", e.target.value)} />
             <InputTexto label="Empresa" required={false} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />
             <div className="flex flex-col">
                 <label className="text-sm -mb-2">Telefone (formato: (11)912345678)</label>

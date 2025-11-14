@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-put http://localhost:3001/intencoes/5/status
+put http://localhost:3001/intencoes/1/status
 Content-Type: application/json
 
 {
@@ -41,7 +41,8 @@ Content-Type: application/json
     "nome": "Ana maria",
     "email": "ana@email.com",
     "empresa": "empresa teste 2",
-    "token": "144519d449e4852febd110bf88dfe68dd22a8f2c2c92daa74acd2e2dfeae1379"
+    "token": "123",
+    "senha": 123
 }
 
 ###
@@ -64,3 +65,21 @@ Content-Type: application/json
 {
     "novo_status": "em contato"
 }
+###
+post http://localhost:3001/usuarios/login/admin
+Content-Type: application/json
+
+{
+    "senha": "123"
+}
+
+###
+post http://localhost:3001/membros/login
+Content-Type: application/json
+
+{
+    "email": "membro@email.com",
+    "senha": "12345"
+}
+
+###
