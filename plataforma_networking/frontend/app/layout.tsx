@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { quicksand } from '@/app/components/ui/fonts';
 import './globals.css';
 import { MembroProvider } from './context/membroContext';
+import Topbar from './components/ui/topBar';
 
 export const metadata: Metadata = {
     title: 'Grupo de Networking',
@@ -18,6 +19,7 @@ export default function RootLayout({
             <body
                 className={`${quicksand.className} antialiased`}
             >
+                <Topbar />
                 <div className="
                     container 
                     bg-gray-200 
