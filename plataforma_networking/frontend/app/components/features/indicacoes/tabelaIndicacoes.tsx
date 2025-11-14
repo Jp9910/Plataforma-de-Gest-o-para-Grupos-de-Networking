@@ -5,7 +5,7 @@ import { Indicacao } from "../../ui/types";
 import BotaoEstilizado from "../../ui/botao";
 import Select from "../../ui/select";
 
-const columns = ["ID", "Membro indicado", "Empresa/Contato", "Descrição da oportunidade", "Status", "Criado em"];
+const columns = ["ID", "Membro indicado", "Empresa/Contato", "Descrição", "Criado em", "Status"];
 const dadosSelect = [{id: "Nova", nome: "Nova"}, {id: "Em contato", nome: "Em contato"}, {id: "Fechada", nome: "Fechada"}, {id: "Recusada", nome: "Recusada"}]
 // ao fazer o fetch das indicacoes do membro, deve passar o tokenjwt
 
@@ -15,10 +15,10 @@ const TabelaIndicacoes = (props: { dados: Indicacao[] }) => {
     const URL = "http://".concat(enderecoApi).concat('/indicacoes')
     console.log(URL)
 
-    const alterarStatus = async (indicacao: Indicacao, novo_status: string) => {
+    const alterarStatus = async (indicacaoId: number, novo_status: string) => {
         let conteudoReq = { novo_status }
         fetch(
-            URL.concat(`/${indicacao.id}/status`), {
+            URL.concat(`/${indicacaoId}/status`), {
             method: "PUT",
             body: JSON.stringify(conteudoReq),
             headers: { "Content-Type": "application/json" }
@@ -34,6 +34,10 @@ const TabelaIndicacoes = (props: { dados: Indicacao[] }) => {
 
     return (
         <TableComponent<Indicacao>
+            customClassNames={{
+                thead: "",
+                th: "px-4 py-2"
+            }}
             columns={columns}
             data={props.dados}
             props={["id", "membro_indicado", "empresaContato", "descricao_oportunidade", "created_at"] as const}
@@ -42,13 +46,13 @@ const TabelaIndicacoes = (props: { dados: Indicacao[] }) => {
             renderRow={(indicacao: Indicacao) => (
                 <>
                     <td className="px-6 py-4 text-black dark:text-white text-sm">{indicacao.id}</td>
-                    <td className="px-6 py-4 text-black dark:text-white text-sm">{indicacao.membro_indicado}</td>
+                    <td className="px-6 py-4 mx-5 text-black dark:text-white text-sm">{indicacao.membro_indicado}</td>
                     <td className="px-6 py-4 text-black dark:text-white text-sm">{indicacao.empresaContato}</td>
                     <td className="px-6 py-4 text-black dark:text-white text-sm">{indicacao.descricao_oportunidade}</td>
                     <td className="px-6 py-4 text-black dark:text-white text-sm">{new Date(indicacao.created_at).toLocaleDateString('pt-BR')}</td>
 
                     <td className="px-6 py-4 text-sm">
-                        <Select dados={dadosSelect} defaultValue={indicacao.status} />
+                        <Select dados={dadosSelect} defaultValue={indicacao.status} onChange={e => alterarStatus(indicacao.id, e.target.value)} />
                     </td>
                 </>
             )}

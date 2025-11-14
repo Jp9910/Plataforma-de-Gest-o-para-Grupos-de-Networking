@@ -37,6 +37,10 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
 
     return (
         <TableComponent<Intencao>
+            customClassNames={{
+                thead: "",
+                th: "px-4 py-2"
+            }}
             columns={columns}
             data={props.dados}
             props={["id", "nome", "email", "empresa", "motivo_participar", "status", "created_at"] as const}
@@ -50,7 +54,7 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
                     <td className="px-6 py-4 text-black dark:text-white text-sm">{intencao.empresa}</td>
                     <td className="px-10 py-4 text-black dark:text-white text-sm">{intencao.motivo_participar}</td>
                     <td className="px-6 py-4 text-black dark:text-white text-sm">{intencao.status}</td>
-                    <td className="px-6 py-4 text-black dark:text-white text-sm">{intencao.created_at}</td>
+                    <td className="px-6 py-4 text-black dark:text-white text-sm">{new Date(intencao.created_at).toLocaleDateString('pt-BR')}</td>
 
                     <td className="px-6 py-4 text-sm">
                         <BotaoEstilizado

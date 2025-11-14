@@ -27,8 +27,8 @@ const validacaoIndicacao = [
 
 const validacaoAlterarStatusIndicacao = [
     param('id').isInt().withMessage('Id deve ser um inteiro'),
-    body('novo_status').isString().isIn(["nova", "em contato", "fechada", "recusada"])
-        .withMessage("Novo status deve ser nova, em contato, fechada ou recusada")
+    body('novo_status').isString().isIn(["Nova", "Em contato", "Fechada", "Recusada"])
+        .withMessage("Novo status deve ser 'Nova', 'Em contato', 'Fechada' ou 'Recusada'")
 ]
 
 rotasIndicacao.get("/indicacoes", IndicacaoController.listarIndicacoes)

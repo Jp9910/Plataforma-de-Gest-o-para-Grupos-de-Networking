@@ -24,12 +24,12 @@ class IndicacaoService {
                 WHERE email = $1
             )
             SELECT
-                (SELECT COALESCE(json_agg(row_to_json(i)), '[]'::json) 
+                (SELECT COALESCE(json_agg(row_to_json(i) ORDER BY i.created_at DESC), '[]'::json) 
                     FROM indicacoes i
-                    WHERE i.membro_indicador = m.id)  AS indicacoes_feitas,
-                (SELECT COALESCE(json_agg(row_to_json(i)), '[]'::json) 
+                    WHERE i.membro_indicador = m.id) AS indicacoes_feitas,
+                (SELECT COALESCE(json_agg(row_to_json(i) ORDER BY i.created_at DESC), '[]'::json) 
                     FROM indicacoes i
-                    WHERE i.membro_indicado = m.id)  AS indicacoes_recebidas
+                    WHERE i.membro_indicado = m.id) AS indicacoes_recebidas
             FROM m;
         `, [emailMembro])
         return queryIndicacoes.rows[0];

@@ -22,7 +22,6 @@ export default function FormIndicacao(props: {membros: Array<Membros>}) {
         event.preventDefault();
         const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
         const urlCompleta = "http://".concat(urlApi).concat('/indicacoes/cadastro')
-        console.log(urlCompleta)
 
         fetch(urlCompleta, { method: "POST", body: JSON.stringify({...formDados, membroIndicador: membroContext.idMembro}), headers: { "Content-Type": "application/json" } })
             .then((res) => {
@@ -46,6 +45,7 @@ export default function FormIndicacao(props: {membros: Array<Membros>}) {
 
     function atualizarCampo(campo: string, valor: any) {
         setFormDados(prev => ({ ...prev, [campo]: valor }));
+        // console.log(formDados)
     }
 
     return (

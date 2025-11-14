@@ -10,15 +10,14 @@ export default function Page() {
     useEffect(() => {
         const enderecoApi = process.env.NEXT_PUBLIC_URL_API || ""
         const URL = "http://".concat(enderecoApi).concat('/membros')
-        console.log(URL)
-        async function carregarIntencoes<TipoGenerico>(): Promise<TipoGenerico> {
+        async function carregarMembros<TipoGenerico>(): Promise<TipoGenerico> {
             const res = await fetch(URL)
             if (!res.ok) {
                 throw new Error(res.statusText);
             }
             return await res.json()
         }
-        carregarIntencoes<Membros[]>()
+        carregarMembros<Membros[]>()
             .then((dados) => {
                 console.log(dados)
                 setMembros(dados)
