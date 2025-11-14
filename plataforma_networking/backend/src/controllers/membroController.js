@@ -3,7 +3,7 @@ import membroService from "../services/membroService.js"
 class MembroController {
 
     /**
-     * @route GET /membro
+     * @route GET /membros
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
@@ -19,7 +19,7 @@ class MembroController {
     }
 
     /**
-     * @route POST /membro
+     * @route POST /membros
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
@@ -36,7 +36,7 @@ class MembroController {
     }
 
     /**
-     * @route POST /membro/login
+     * @route POST /membros/login
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next

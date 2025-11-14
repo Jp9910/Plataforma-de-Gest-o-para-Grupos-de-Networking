@@ -3,11 +3,22 @@ import pool from '../config/conexaoBD.js';
 class IndicacaoService {
 
     /**
-     * Busca as indicacoes no banco de dados
+     * Busca todas as indicacoes no banco de dados
      * @returns {Promise<import('pg').QueryResult>} Resultado da query ao banco de dados
      */
     static async buscarIndicacoes() {
         const result = await pool.query('SELECT * FROM indicacoes ORDER BY created_at DESC');
+        return result;
+    }
+
+    /**
+     * Busca as indicacoes associadas a um email
+     * @returns {Promise<import('pg').QueryResult>} Resultado da query ao banco de dados
+     */
+    static async buscarIndicacoesPorEmail(email) {
+        const idMembroRes = await pool.query('SELECT * FROM membros WHERE membro_indicador = $1', [idMembro]);
+        const indicacoesEnviadasRes = await pool.query('SELECT * FROM indicacoes WHERE membro_indicador = $1', [idMembro]);
+        const indicacoesRecebidasRes = await pool.query('SELECT * FROM indicacoes WHERE membro_indicado = $1', [idMembro]);
         return result;
     }
 

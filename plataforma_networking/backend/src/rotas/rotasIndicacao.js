@@ -2,6 +2,7 @@ import express from "express"
 import IndicacaoController from "../controllers/indicacaoController.js";
 import {body, validationResult, param} from "express-validator";
 import { validarRequisicao } from "../middlewares/ValidarRequisicao.js";
+import { autenticarJwt } from "../middlewares/autenticarJwt.js";
 const rotasIndicacao = express.Router()
 
 const funcaoErro = (req, res, next) => {
@@ -17,10 +18,10 @@ const funcaoErro = (req, res, next) => {
 }
 
 const validacaoIndicacao = [
-    body('membro_indicador').isInt().withMessage('Id do membro indicador inválido'),
-    body('membro_indicado').isInt().withMessage('Id do membro indicado inválido'),
-    body('empresa').optional().isString().withMessage('Empresa inválido'),
-    body('descricao_oportunidade').optional().isString().withMessage('Descrição inválida'),
+    body('membroIndicador').isInt().withMessage('Id do membro indicador inválido'),
+    body('membroIndicado').isInt().withMessage('Id do membro indicado inválido'),
+    body('empresaContato').optional().isString().withMessage('Empresa inválido'),
+    body('descricao').optional().isString().withMessage('Descrição inválida'),
     funcaoErro
 ]
 
@@ -31,6 +32,7 @@ const validacaoAlterarStatusIndicacao = [
 ]
 
 rotasIndicacao.get("/indicacoes", IndicacaoController.listarIndicacoes)
+rotasIndicacao.get("/indicacoes/buscarPorEmail", autenticarJwt, IndicacaoController.buscarIndicacoesPorEmail)
 rotasIndicacao.post("/indicacoes/cadastro", validacaoIndicacao, validarRequisicao, IndicacaoController.cadastrarIndicacao)
 rotasIndicacao.put("/indicacoes/:id/status", validacaoAlterarStatusIndicacao, validarRequisicao, IndicacaoController.alterarStatusIndicacao)
 

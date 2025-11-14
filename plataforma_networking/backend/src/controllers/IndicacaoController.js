@@ -3,7 +3,7 @@ import IndicacaoService from "../services/IndicacaoService.js"
 class IndicacaoController {
 
     /**
-     * @route GET /indicacao
+     * @route GET /indicacoes
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
@@ -19,15 +19,34 @@ class IndicacaoController {
     }
 
     /**
-     * @route POST /indicacao
+     * @route GET /indicacoes/buscarPorEmail
+     * @param {Express.Request} req
+     * @param {Express.Response} res
+     * @param {Express.NextFunction} next
+     */
+    static async buscarIndicacoesPorEmail(req, res, next) {
+        try {
+            // const { email } = req.body; // na request, em vez do email, deve ser passado o tokenJwt contendo o email
+            const email = req.email // definido no middleware autenticarJwt.js
+            console.log("email:",email)
+            const result = await IndicacaoService.buscarIndicacoesPorEmail(email)
+            res.status(200).json(result);
+        } catch (err) {
+            console.error('Erro ao buscar indicacoes:', err);
+            next(err)
+        }
+    }
+
+    /**
+     * @route POST /indicacoes/cadastro
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
      */
     static async cadastrarIndicacao(req, res, next) {
-        const { membro_indicador, membro_indicado, empresa, descricao_oportunidade } = req.body;
+        const { membroIndicador, membroIndicado, empresaContato, descricao } = req.body;
         try {
-            const result = await IndicacaoService.criarIndicacao(membro_indicador, membro_indicado, empresa, descricao_oportunidade)
+            const result = await IndicacaoService.criarIndicacao(membroIndicador, membroIndicado, empresaContato, descricao)
             res.status(201).json(result.rows[0]);
         } catch (err) {
             console.error('Erro ao criar indicacao:', err);
@@ -36,7 +55,7 @@ class IndicacaoController {
     }
 
     /**
-     * @route PUT /indicacao/:id/status
+     * @route PUT /indicacoes/:id/status
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next

@@ -19,7 +19,6 @@ const funcaoErro = (req, res, next) => {
 const validacaoIntencao = [
     body('nome').isString().isLength({ min: 2 }).withMessage('Nome precisa ter no mínimo 2 caracteres'),
     body('email').isEmail().withMessage('Email inválido'),
-    body('empresa').notEmpty().withMessage('Empresa não foi preenchido'),
     funcaoErro
 ]
 

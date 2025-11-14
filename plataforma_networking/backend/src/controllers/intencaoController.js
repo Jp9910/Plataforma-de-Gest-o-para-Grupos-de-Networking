@@ -3,7 +3,7 @@ import intencaoService from "../services/IntencaoService.js"
 class IntencaoController {
 
     /**
-     * @route GET /intencao
+     * @route GET /intencoes
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
@@ -19,7 +19,7 @@ class IntencaoController {
     }
 
     /**
-     * @route POST /intencao
+     * @route POST /intencoes
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
@@ -36,7 +36,7 @@ class IntencaoController {
     }
 
     /**
-     * @route PUT /intencao/:id/status
+     * @route PUT /intencoes/:id/status
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next

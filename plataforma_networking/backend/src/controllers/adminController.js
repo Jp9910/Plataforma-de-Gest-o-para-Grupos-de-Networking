@@ -12,7 +12,7 @@ class AdminController {
         const { senha } = req.body;
         try {
             if (senha === process.env.SENHA_ADMIN) {
-                // normalmente retornaria um token jwt
+                // em um login comum, retornaria um token jwt (como no login de membro)
                 res.status(201).json({message: "senha ok"});
             }
             else {
