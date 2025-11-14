@@ -1,4 +1,4 @@
-import RotaProtegida from "./rotaProtegida";
+import RotaProtegidaAdmin from "./rotaProtegidaAdmin";
 
 export default function layoutIntencoesVerificar({
     children,
@@ -6,8 +6,8 @@ export default function layoutIntencoesVerificar({
     children: React.ReactNode;
 }) {
     return (
-        <RotaProtegida>
+        <RotaProtegidaAdmin>
             {children}
-        </RotaProtegida>
+        </RotaProtegidaAdmin>
     );
 }

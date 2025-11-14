@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function RotaProtegida({ children }: { children: React.ReactNode }) {
+export default function RotaProtegidaAdmin({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const [logado, setLogado] = useState<boolean | null>(null);
 
@@ -20,7 +20,7 @@ export default function RotaProtegida({ children }: { children: React.ReactNode 
     }, [router]);
 
     if (logado === null) 
-        return <div>Verificando se usuário está logado...</div>;
+        return <div>Verificando se administrador está logado...</div>;
 
     return <>{children}</>;
 }
