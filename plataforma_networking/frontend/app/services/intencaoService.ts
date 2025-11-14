@@ -13,8 +13,9 @@ export class IntencaoService {
     }
 
     static async enviarFormIntencao(formDados: {nome: string, email: string, empresa: string, motivo_participar: string}): Promise<any> {
-
         const URL = this.protocolo.concat(this.urlApi).concat('/intencoes/cadastro')
+        console.log("url:", URL)
+
         return fetch(URL, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })
             .then((res) => {
                 return res.json()
@@ -30,7 +31,7 @@ export class IntencaoService {
 
     static async alterarStatusIntencao(intencaoId: number, conteudoReq: {"bool_aprovar": boolean}): Promise<any> {
         const URL = this.protocolo.concat(this.urlApi).concat(`/intencoes/${intencaoId}/status`)
-        fetch(
+        return fetch(
             URL, {
             method: "PUT",
             body: JSON.stringify(conteudoReq),
@@ -39,6 +40,9 @@ export class IntencaoService {
             if (!res.ok) {
                 throw new Error(res.statusText);
             }
+            return res
+            // if (conteudoReq.bool_aprovar) alert("Intenção aprovada com sucesso")
+            // else alert("Intenção rejeitada com sucesso")
         }).catch(error => {
             console.error("Erro ao alterar status da intencao: ", error)
         })

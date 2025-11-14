@@ -22,6 +22,7 @@ const TabelaIndicacoes = (props: { dados: Indicacao[] }) => {
                 thead: "",
                 th: "px-4 py-2"
             }}
+            noContentProps={{text: "Nenhuma indicação cadastrada"}}
             columns={columns}
             data={props.dados}
             props={["id", "membro_indicado", "empresa", "descricao_oportunidade", "created_at"] as const}

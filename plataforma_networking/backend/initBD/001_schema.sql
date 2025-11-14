@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS intencoes (
   email VARCHAR(200) NOT NULL,
   empresa VARCHAR(60),
   motivo_participar TEXT,
-  status VARCHAR(20) DEFAULT 'pendente', -- pendente, aprovado, rejeitado
+  status VARCHAR(20) DEFAULT 'Pendente', -- Pendente, Aprovada, Rejeitada
   comentario_admin TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS indicacoes (
   membro_indicado INTEGER NOT NULL REFERENCES membros(id),
   empresa VARCHAR(60),
   descricao_oportunidade TEXT,
-  status VARCHAR(20) DEFAULT 'nova', -- nova, em contato, fechada, recusada
+  status VARCHAR(20) DEFAULT 'Nova', -- Nova, Em contato, Fechada, Recusada
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 

@@ -62,7 +62,7 @@ class IntencaoService {
 
             const intencao = resBuscaIntencao.rowCount > 0 ? resBuscaIntencao.rows[0] : null;
             
-            const novoStatus = bool_aprovar ? 'aprovado' : 'rejeitado';
+            const novoStatus = bool_aprovar ? 'Aprovada' : 'Rejeitada';
 
             await client.query(
                 'UPDATE intencoes SET status = $1 WHERE id = $2',

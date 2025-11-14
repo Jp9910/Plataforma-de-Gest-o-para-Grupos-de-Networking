@@ -1,19 +1,14 @@
 'use client'
 import { TableComponent } from "nextjs-reusable-table";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BotaoEstilizado from "../../ui/botao";
 import { Intencao } from "../../ui/types";
 import { IntencaoService } from "@/app/services/intencaoService";
 
-// const dataMock: Intencao[] = [
-//     { id: 1, nome: "John Doe", email: "john@example.com", empresa: "ABVC", motivo_participar: "networking", status: "pendente", created_at: "2025-11-13T13:52:10.225Z" },
-//     { id: 1, nome: "Jane Doe", email: "jane@example.com", empresa: "BZXV", motivo_participar: "networking", status: "aprovado", created_at: "2025-11-13T13:52:10.225Z" },
-//     { id: 1, nome: "Bob Smith", email: "bob@example.com", empresa: "Empresa aqqr", motivo_participar: "networking", status: "pendente", created_at: "2025-11-13T13:52:10.225Z" },
-// ];
-
 const columns = ["ID", "Nome", "Email", "Empresa", "Motivo de participar", "Status", "Criado Em", "Ações"];
 
 const TabelaIntencoes = (props: { dados: Intencao[] }) => {
+    const [atualizou, setAtualizou] = useState(false)
     const enderecoApi = process.env.NEXT_PUBLIC_URL_API || ""
     const URL = "http://".concat(enderecoApi).concat('/intencoes')
     console.log(URL)
@@ -21,7 +16,12 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
     const alterarStatus = async (intencao: Intencao, aprovar: boolean) => {
         let conteudoReq = { "bool_aprovar": false }
         if (aprovar) conteudoReq = { "bool_aprovar": true }
-        await IntencaoService.alterarStatusIntencao(intencao.id, conteudoReq)
+        const antes = intencao.status
+        const res = await IntencaoService.alterarStatusIntencao(intencao.id, conteudoReq)
+        if (res.ok) {
+            intencao.status = aprovar ? "Aprovada" : "Rejeitada"
+            if (antes !== intencao.status) setAtualizou(!atualizou)
+        }
     };
 
     return (
@@ -31,6 +31,7 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
                 thead: "",
                 th: "px-4 py-2"
             }}
+            noContentProps={{text: "Nenhuma intenção cadastrada"}}
             columns={columns}
             data={props.dados}
             props={["id", "nome", "email", "empresa", "motivo_participar", "status", "created_at"] as const}
@@ -47,13 +48,17 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
                     <td className="px-6 py-4 text-black dark:text-white text-sm">{new Date(intencao.created_at).toLocaleDateString('pt-BR')}</td>
 
                     <td className="px-6 py-4 text-sm">
+                        {/* depois de aprovada, não pode ser rejeitada pois o convite ja foi criado */}
+                        {/* depois de rejeitada ainda pode ser aprovada */}
                         <BotaoEstilizado
+                            disabled={intencao.status === "Aprovada"}
                             className="bg-blue-500 text-white px-4 py-2 rounded"
                             onClick={() => alterarStatus(intencao, true)}
                         >
                             Aprovar
                         </BotaoEstilizado>
                         <BotaoEstilizado
+                            disabled={intencao.status === "Aprovada" || intencao.status === "Rejeitada"}
                             onClick={() => alterarStatus(intencao, false)}
                         >
                             Rejeitar
