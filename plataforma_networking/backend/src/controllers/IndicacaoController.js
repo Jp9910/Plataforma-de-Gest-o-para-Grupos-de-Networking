@@ -19,17 +19,16 @@ class IndicacaoController {
     }
 
     /**
-     * @route GET /indicacoes/buscarPorEmail
+     * @route GET /indicacoes/buscarIndicacoesDoMembro
      * @param {Express.Request} req
      * @param {Express.Response} res
      * @param {Express.NextFunction} next
      */
-    static async buscarIndicacoesPorEmail(req, res, next) {
+    static async buscarIndicacoesDoMembro(req, res, next) {
         try {
-            // const { email } = req.body; // na request, em vez do email, deve ser passado o tokenJwt contendo o email
-            const email = req.email // definido no middleware autenticarJwt.js
-            console.log("email:",email)
-            const result = await IndicacaoService.buscarIndicacoesPorEmail(email)
+            // na request deve ser passado o tokenJwt, que sera decodificado no middleware autenticarJwt
+            const dadosJwt = req.dadosJwt // definido no middleware autenticarJwt.js
+            const result = await IndicacaoService.buscarIndicacoesDoMembro(dadosJwt.email)
             res.status(200).json(result);
         } catch (err) {
             console.error('Erro ao buscar indicacoes:', err);
@@ -67,12 +66,6 @@ class IndicacaoController {
 
         try {
             const result = await IndicacaoService.alterarStatusIndicacao(idIndicacao, novo_status);
-
-            // caso o convite tenha sido criado, simular envio de e-mail (será apenas um console.log)
-            if (result.convite) {
-                IndicacaoService.enviarEmailDeConvite(result.convite.token)
-            }
-
             res.status(204).json({"message": "Status alterado com sucesso"});
         } catch (err) {
             console.error('Erro ao alterar status da Indicacao:', err);

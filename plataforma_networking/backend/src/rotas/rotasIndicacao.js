@@ -32,7 +32,7 @@ const validacaoAlterarStatusIndicacao = [
 ]
 
 rotasIndicacao.get("/indicacoes", IndicacaoController.listarIndicacoes)
-rotasIndicacao.get("/indicacoes/buscarPorEmail", autenticarJwt, IndicacaoController.buscarIndicacoesPorEmail)
+rotasIndicacao.get("/indicacoes/buscarPorMembro", autenticarJwt, IndicacaoController.buscarIndicacoesDoMembro)
 rotasIndicacao.post("/indicacoes/cadastro", validacaoIndicacao, validarRequisicao, IndicacaoController.cadastrarIndicacao)
 rotasIndicacao.put("/indicacoes/:id/status", validacaoAlterarStatusIndicacao, validarRequisicao, IndicacaoController.alterarStatusIndicacao)
 

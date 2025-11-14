@@ -12,14 +12,27 @@ class IndicacaoService {
     }
 
     /**
-     * Busca as indicacoes associadas a um email
+     * Busca as indicacoes associadas a um membro
      * @returns {Promise<import('pg').QueryResult>} Resultado da query ao banco de dados
      */
-    static async buscarIndicacoesPorEmail(email) {
-        const idMembroRes = await pool.query('SELECT * FROM membros WHERE membro_indicador = $1', [idMembro]);
-        const indicacoesEnviadasRes = await pool.query('SELECT * FROM indicacoes WHERE membro_indicador = $1', [idMembro]);
-        const indicacoesRecebidasRes = await pool.query('SELECT * FROM indicacoes WHERE membro_indicado = $1', [idMembro]);
-        return result;
+    static async buscarIndicacoesDoMembro(emailMembro) {
+
+        const queryIndicacoes = await pool.query(`
+            WITH m AS (
+                SELECT id
+                FROM membros
+                WHERE email = $1
+            )
+            SELECT
+                (SELECT COALESCE(json_agg(row_to_json(i)), '[]'::json) 
+                    FROM indicacoes i
+                    WHERE i.membro_indicador = m.id)  AS indicacoes_feitas,
+                (SELECT COALESCE(json_agg(row_to_json(i)), '[]'::json) 
+                    FROM indicacoes i
+                    WHERE i.membro_indicado = m.id)  AS indicacoes_recebidas
+            FROM m;
+        `, [emailMembro])
+        return queryIndicacoes.rows[0];
     }
 
     /**

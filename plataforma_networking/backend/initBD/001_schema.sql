@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS intencoes (
   id SERIAL PRIMARY KEY,
   nome VARCHAR(200) NOT NULL,
   email VARCHAR(200) NOT NULL,
-  empresa VARCHAR(60) NOT NULL,
+  empresa VARCHAR(60),
   motivo_participar TEXT,
   status VARCHAR(20) DEFAULT 'pendente', -- pendente, aprovado, rejeitado
   comentario_admin TEXT,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS comunicados(
 
 CREATE TABLE IF NOT EXISTS reunioes(
   id SERIAL PRIMARY KEY,
-  organizador_id INTEGER REFERENCES membros(id),
+  organizador_id INTEGER NOT NULL REFERENCES membros(id),
   data_inicio TIMESTAMP WITH TIME ZONE,
   descricao TEXT, -- local da reuniao, link, assuntos, etc
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS presenca_membros_reunioes (
 
 CREATE TABLE IF NOT EXISTS indicacoes (
   id SERIAL PRIMARY KEY,
-  membro_indicador INTEGER REFERENCES membros(id),
-  membro_indicado INTEGER REFERENCES membros(id),
+  membro_indicador INTEGER NOT NULL REFERENCES membros(id),
+  membro_indicado INTEGER NOT NULL REFERENCES membros(id),
   empresa VARCHAR(60),
   descricao_oportunidade TEXT,
   status VARCHAR(20) DEFAULT 'nova', -- nova, em contato, fechada, recusada
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS indicacoes (
 
 CREATE TABLE IF NOT EXISTS agradecimentos(
   id SERIAL PRIMARY KEY,
-  membro_id INTEGER REFERENCES membros(id), -- membro que fez o agradecimento
-  indicacao_id INTEGER REFERENCES indicacoes(id), -- indicacao que recebeu agradecimento
+  membro_id INTEGER NOT NULL REFERENCES membros(id), -- membro que fez o agradecimento
+  indicacao_id INTEGER NOT NULL REFERENCES indicacoes(id), -- indicacao que recebeu agradecimento
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   CONSTRAINT unique_membro_indicacao UNIQUE(membro_id,indicacao_id) -- membro só pode agradecer uma indicacao uma vez
 );
@@ -74,8 +74,8 @@ CREATE TABLE IF NOT EXISTS agradecimentos(
 CREATE TABLE IF NOT EXISTS reunioes1a1(
   id SERIAL PRIMARY KEY,
   data TIMESTAMP WITH TIME ZONE,
-  membro_id_1 INTEGER REFERENCES membros(id),
-  membro_id_2 INTEGER REFERENCES membros(id),
+  membro_id_1 INTEGER NOT NULL REFERENCES membros(id),
+  membro_id_2 INTEGER NOT NULL REFERENCES membros(id),
   descricao TEXT, -- local da reuniao, link, assuntos, etc
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS mensalidade(
   valor DECIMAL,
   ano INTEGER,
   mes INTEGER,
-  membro_id INTEGER REFERENCES membros(id),
+  membro_id INTEGER NOT NULL REFERENCES membros(id),
   status VARCHAR(30) DEFAULT 'pendente', --pendente, paga, cancelada
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
