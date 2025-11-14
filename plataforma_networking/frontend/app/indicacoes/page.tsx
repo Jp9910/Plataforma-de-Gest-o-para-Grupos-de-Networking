@@ -1,31 +1,16 @@
 'use client'
 import { useEffect, useState } from "react";
 import TabelaIndicacoes from "../components/features/indicacoes/tabelaIndicacoes";
-import { Indicacao, IndicacoesDoMembro } from "../components/ui/types";
-import { TokenService } from "../services/tokenService";
+import { IndicacoesDoMembro } from "../components/ui/types";
+import { IndicacaoService } from "../services/indicacaoService";
 
-// ao fazer o fetch das indicacoes do membro, deve passar o tokenjwt
 export default function Page() {
     const [indicacoes, setIndicacoes] = useState<IndicacoesDoMembro>({indicacoes_feitas: [], indicacoes_recebidas: [],});
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
 
     useEffect(() => {
-        const enderecoApi = process.env.NEXT_PUBLIC_URL_API || ""
-        const URL = "http://".concat(enderecoApi).concat('/indicacoes/buscarPorMembro')
-
-        const headers = new Headers()
-        headers.append('Content-Type', 'application/json')
-        headers.append('Authorization', 'Bearer '.concat(TokenService.token))
-
-        async function carregarIndicacoes<TipoGenerico>(): Promise<TipoGenerico> {
-            const res = await fetch(URL, {method: "GET", headers: headers})
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
-            return await res.json()
-        }
-        carregarIndicacoes<IndicacoesDoMembro>()
+        IndicacaoService.buscarIndicacoesDoMembro<IndicacoesDoMembro>()
             .then((dados) => {
                 console.log(dados)
                 setIndicacoes(dados)

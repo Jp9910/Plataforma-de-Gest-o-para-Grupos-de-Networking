@@ -35,7 +35,8 @@ export default function RootLayout({
                     box-border
                     shadow-2xl
                     rounded-2xl
-                    h-dvh
+                    min-h-screen
+                    h-auto
                 ">
                     <MembroProvider>
                         {children}

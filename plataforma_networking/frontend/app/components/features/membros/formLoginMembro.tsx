@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
 import { TokenService } from "@/app/services/tokenService";
 import { useMembro } from "@/app/context/membroContext";
+import { LoginService } from "@/app/services/loginService";
 
 export default function FormLoginMembro() {
     const [email, setEmail] = useState('')
@@ -17,34 +18,17 @@ export default function FormLoginMembro() {
 
     async function entrar(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/membros/login')
-        console.log(urlCompleta)
-
-        fetch(urlCompleta, { method: "POST", body: JSON.stringify({email,senha}), headers: { "Content-Type": "application/json" } })
-            .then((res) => {
-                return res.json()
-            }).then((dados) => {
-                console.log("Resposta da api:", dados)
-                if (!dados.errors) {
-                    setErros([])
-                    // guardar token jwt
-                    console.log("dados",dados)
-                    console.log("token:",dados.tokenJwt)
-                    TokenService.salvarToken(dados.tokenJwt)
-
-                    //decodifica o token e salva email e id do membro no sessionStorage
-                    membroContext.decodificarJwt(dados.tokenJwt)
-                    router.replace("/indicacoes/cadastro")
-                }
-                else {
-                    console.log(dados)
-                    setErros(dados.errors)
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao enviar formulario de intenção: ", error)
-            })
+        const resp = await LoginService.enviarFormLoginMembro(email, senha)
+        if (!resp.errors) {
+            setErros([])
+            TokenService.salvarToken(resp.tokenJwt)
+            membroContext.decodificarJwt(resp.tokenJwt)
+            router.replace("/indicacoes/cadastro")
+        }
+        else {
+            console.log(resp)
+            setErros(resp.errors)
+        }
     }
 
     return (

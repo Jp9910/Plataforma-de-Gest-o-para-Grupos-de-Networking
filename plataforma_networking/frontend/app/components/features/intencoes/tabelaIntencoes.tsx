@@ -3,6 +3,7 @@ import { TableComponent } from "nextjs-reusable-table";
 import { useEffect, useState } from "react";
 import BotaoEstilizado from "../../ui/botao";
 import { Intencao } from "../../ui/types";
+import { IntencaoService } from "@/app/services/intencaoService";
 
 // const dataMock: Intencao[] = [
 //     { id: 1, nome: "John Doe", email: "john@example.com", empresa: "ABVC", motivo_participar: "networking", status: "pendente", created_at: "2025-11-13T13:52:10.225Z" },
@@ -20,19 +21,7 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
     const alterarStatus = async (intencao: Intencao, aprovar: boolean) => {
         let conteudoReq = { "bool_aprovar": false }
         if (aprovar) conteudoReq = { "bool_aprovar": true }
-        fetch(
-            URL.concat(`/${intencao.id}/status`), {
-            method: "PUT",
-            body: JSON.stringify(conteudoReq),
-            headers: { "Content-Type": "application/json" }
-        }).then((res) => {
-            console.log("Resposta:", res)
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
-        }).catch(error => {
-            console.error("Erro ao alterar status da intencao: ", error)
-        })
+        await IntencaoService.alterarStatusIntencao(intencao.id, conteudoReq)
     };
 
     return (

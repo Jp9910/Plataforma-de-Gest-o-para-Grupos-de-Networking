@@ -13,7 +13,7 @@ export interface Indicacao {
     id: number;
     membro_indicador: number;
     membro_indicado: number;
-    empresaContato: string;
+    empresa: string;
     descricao_oportunidade: string;
     status: string;
     created_at: string;

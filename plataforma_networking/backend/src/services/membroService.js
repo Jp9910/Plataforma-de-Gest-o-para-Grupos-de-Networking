@@ -98,6 +98,9 @@ class MembroService {
 
         } catch (err) {
             await client.query('ROLLBACK').catch(() => { });
+            if (err.message.includes('duplicate key')) {
+                throw new ErroBadRequest("Já existe um membro cadastrado com esse email")
+            }
             throw err;
         } finally {
             client.release();

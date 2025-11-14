@@ -2,14 +2,14 @@
 get http://localhost:3001/intencoes
 
 ###
-post http://localhost:3001/intencoes
+post http://localhost:3001/intencoes/cadastro
 Content-Type: application/json
 
 {
     "nome": "João da Silva",
     "email": "joao@email.com",
     "empresa": "Empresa Teste Inc.",
-    "motivo_participar": "motivo qualquer"
+    "motivo_participar": "motivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquermotivo qualquer"
 }
 ###
 post http://localhost:3001/intencoes
@@ -49,17 +49,18 @@ Content-Type: application/json
 get http://localhost:3001/indicacoes
 
 ###
-post http://localhost:3001/indicacoes
+post http://localhost:3001/indicacoes/cadastro
 Content-Type: application/json
 
 {
-    "membro_indicador": 1,
-    "membro_indicado": 2,
+    "membroIndicador": 1,
+    "membroIndicado": 2,
     "empresa": "empresa teste 2",
-    "descricao_oportunidade": "Essa é uma descrição da oportunidade entre os para o membro que está sendo indicado"
+    "descricao_oportunidade": "Essa é uma descrição da oportunidade entre os para o membro que está sendo indicado",
+    "status": "Em contato"
 }
 ###
-put http://localhost:3001/indicacoes/2/status
+put http://localhost:3001/indicacoes/18/status
 Content-Type: application/json
 
 {

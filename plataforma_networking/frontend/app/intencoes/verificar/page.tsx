@@ -2,6 +2,7 @@
 
 import TabelaIntencoes from "@/app/components/features/intencoes/tabelaIntencoes";
 import { Intencao } from "@/app/components/ui/types";
+import { IntencaoService } from "@/app/services/intencaoService";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -11,17 +12,7 @@ export default function Page() {
     const [erro, setErro] = useState(null);
 
     useEffect(() => {
-        const enderecoApi = process.env.NEXT_PUBLIC_URL_API || ""
-        const URL = "http://".concat(enderecoApi).concat('/intencoes')
-        console.log(URL)
-        async function carregarIntencoes<TipoGenerico>(): Promise<TipoGenerico> {
-            const res = await fetch(URL)
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
-            return await res.json()
-        }
-        carregarIntencoes<Intencao[]>()
+        IntencaoService.buscarTodasIntencoes<Intencao[]>()
             .then((dados) => {
                 console.log(dados)
                 setIntencoes(dados)

@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useMembro } from "@/app/context/membroContext";
 import { Membros } from "../../ui/types";
 import Select from "../../ui/select";
+import { IndicacaoService } from "@/app/services/indicacaoService";
 
 export default function FormIndicacao(props: {membros: Array<Membros>}) {
     const [erros, setErros] = useState<any[]>([])
@@ -20,27 +21,14 @@ export default function FormIndicacao(props: {membros: Array<Membros>}) {
 
     async function enviarIndicacao(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/indicacoes/cadastro')
-
-        fetch(urlCompleta, { method: "POST", body: JSON.stringify({...formDados, membroIndicador: membroContext.idMembro}), headers: { "Content-Type": "application/json" } })
-            .then((res) => {
-                return res.json()
-            }).then((dados) => {
-                console.log("Resposta da api:", dados)
-                if (!dados.errors) {
-                    setErros([])
-                    setMensagem('Indicação cadastrada com sucesso!')
-                }
-                else {
-                    console.log(dados)
-                    setMensagem('Erro:')
-                    setErros(dados.errors)
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao enviar formulario de intenção: ", error)
-            })
+        const resp = await IndicacaoService.enviarFormIndicacao(formDados, membroContext.idMembro)
+        if (!resp.errors) {
+            setErros([])
+            setMensagem('Indicação cadastrada com sucesso!')
+        } else {
+            setMensagem('Erro:')
+            setErros(resp.errors)
+        }
     }
 
     function atualizarCampo(campo: string, valor: any) {
@@ -49,7 +37,7 @@ export default function FormIndicacao(props: {membros: Array<Membros>}) {
     }
 
     return (
-        <Form onSubmit={enviarIndicacao} action={""} className="flex flex-col items-center min-w-80">
+        <Form onSubmit={enviarIndicacao} action={""} className="flex flex-col items-center w-80">
             <Select label="Escolha um membro" dados={props.membros} onChange={e => atualizarCampo("membroIndicado", e.target.value)}/>
             <InputTexto label="Empresa/Contato Indicado" required={true} value={formDados.empresaContato} onChange={e => atualizarCampo("empresaContato", e.target.value)}/>
             <InputTexto label="Descricao da oportunidade" required={true} value={formDados.descricao} onChange={e => atualizarCampo("descricao", e.target.value)}/>

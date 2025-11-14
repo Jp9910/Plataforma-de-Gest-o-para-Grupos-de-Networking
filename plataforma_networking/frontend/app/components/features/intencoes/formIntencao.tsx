@@ -4,6 +4,7 @@ import InputTexto from "../../ui/inputTexto";
 import BotaoEstilizado from "../../ui/botao";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { IntencaoService } from "@/app/services/intencaoService";
 
 export default function FormIntencao() {
     const [erros, setErros] = useState<any[]>([])
@@ -12,34 +13,21 @@ export default function FormIntencao() {
         nome: "",
         email: "",
         empresa: "",
-        motivo: ""
+        motivo_participar: ""
     });
 
     async function enviarForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log(JSON.parse(JSON.stringify(formDados)));
-        const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/intencoes/cadastro')
-        console.log(urlCompleta)
-
-        fetch(urlCompleta, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })
-            .then((res) => {
-                return res.json()
-            }).then((dados) => {
-                console.log("Resposta da api:", dados)
-                if (!dados.errors) {
-                    setErros([])
-                    setMensagem('Intenção cadastrada com sucesso! Um convite será enviado ao seu email caso seja aprovada.')
-                }
-                else {
-                    console.log(dados)
-                    setMensagem('Erro:')
-                    setErros(dados.errors)
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao enviar formulario de intenção: ", error)
-            })
+        const resp = await IntencaoService.enviarFormIntencao(formDados)
+        console.log("resp:", resp)
+        if (!resp.errors) {
+            setErros([])
+            setMensagem('Intenção cadastrada com sucesso! Um convite será enviado ao seu email caso seja aprovada.')
+        }
+        else {
+            setMensagem('Erro:')
+            setErros(resp.errors)
+        }
     }
 
     function atualizarCampo(campo: string, valor: any) {
@@ -51,7 +39,7 @@ export default function FormIntencao() {
                 <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
                 <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
                 <InputTexto label="Empresa" required={false} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />
-                <InputTexto label="Motivo" required={false} value={formDados.motivo} onChange={e => atualizarCampo("motivo", e.target.value)} />
+                <InputTexto label="Por quê quer participar?" required={false} value={formDados.motivo_participar} onChange={e => atualizarCampo("motivo_participar", e.target.value)} />
     
                 <BotaoEstilizado type="submit">Enviar Intenção</BotaoEstilizado>
 

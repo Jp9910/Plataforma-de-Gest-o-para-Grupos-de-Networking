@@ -4,6 +4,7 @@ import InputTexto from "../../ui/inputTexto";
 import BotaoEstilizado from "../../ui/botao";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { MembroService } from "@/app/services/membroService";
 
 export default function FormMembro(props: {token: string|undefined}) {
     const [erros, setErros] = useState<any[]>([])
@@ -20,28 +21,15 @@ export default function FormMembro(props: {token: string|undefined}) {
 
     async function enviarForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const urlApi = process.env.NEXT_PUBLIC_URL_API || "" //definido em .env.local, .env.prod ou .env.test
-        const urlCompleta = "http://".concat(urlApi).concat('/membros/cadastro')
-        console.log(urlCompleta)
-
-        fetch(urlCompleta, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })
-            .then((res) => {
-                return res.json()
-            }).then((dados) => {
-                console.log("Resposta da api:", dados)
-                if (!dados.errors) {
-                    setMensagem('Cadastrado com sucesso!')
-                    setErros([])
-                }
-                else {
-                    setMensagem('Erro:')
-                    console.log(dados)
-                    setErros(dados.errors)
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao enviar formulario de membro: ", error)
-            })
+        const resp = await MembroService.enviarFormMembro(formDados)
+        if (!resp.errors) {
+            setMensagem('Cadastrado com sucesso!')
+            setErros([])
+        }
+        else {
+            setMensagem('Erro:')
+            setErros(resp.errors)
+        }
     }
 
     function atualizarCampo(campo: string, valor: any) {
@@ -49,7 +37,7 @@ export default function FormMembro(props: {token: string|undefined}) {
     }
 
     return (
-        <Form onSubmit={enviarForm} action={""} className="min-w-80">
+        <Form onSubmit={enviarForm} action={""} className="w-80">
             <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
             <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
             <InputTexto label="Senha*" required={true} value={formDados.senha} onChange={e => atualizarCampo("senha", e.target.value)} />
