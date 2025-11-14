@@ -25,10 +25,14 @@ export default function Page() {
     return (
         <div className="flex flex-col items-center">
             <h1 className="text-2xl mb-4">Indicações de negócio recebidas</h1>
-            <TabelaIndicacoes dados={indicacoes.indicacoes_recebidas}/>
+            <div className="border border-gray-300 rounded-md shadow-sm">
+                <TabelaIndicacoes dados={indicacoes.indicacoes_recebidas}/>
+            </div>
 
             <h1 className="text-2xl mb-4 mt-6">Indicações de negócio enviadas</h1>
-            <TabelaIndicacoes dados={indicacoes.indicacoes_feitas}/>
+            <div className="border border-gray-300 rounded-md shadow-sm">
+                <TabelaIndicacoes dados={indicacoes.indicacoes_feitas}/>
+            </div>
         </div>
     );
 }

@@ -20,7 +20,7 @@ export default function RotaProtegidaAdmin({ children }: { children: React.React
     }, [router]);
 
     if (logado === null) 
-        return <div>Verificando se administrador está logado...</div>;
+        return <div className='flex flex-col items-center justify-center'>{/*Verificando se administrador está logado...*/}</div>;
 
     return <>{children}</>;
 }

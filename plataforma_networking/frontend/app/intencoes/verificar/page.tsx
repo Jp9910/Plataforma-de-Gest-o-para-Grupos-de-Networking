@@ -26,8 +26,10 @@ export default function Page() {
 
     return (
         <div className="flex flex-col items-center">
-            <h1 className="text-2xl">Intenções Cadastradas</h1>
-            <TabelaIntencoes dados={intencoes} />
+            <h1 className="text-2xl mb-5">Intenções Cadastradas</h1>
+            <div className="border border-gray-300 rounded-md shadow-sm">
+                <TabelaIntencoes dados={intencoes} />
+            </div>
             {loading && <div className="flex flex-col justify-center items-center">
                             Carregando
                             <img src="/loading.gif" width="200" height="200" alt="loading-gif" id="img-loading"></img>

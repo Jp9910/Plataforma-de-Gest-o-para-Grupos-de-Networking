@@ -27,6 +27,7 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
     return (
         <TableComponent<Intencao>
             customClassNames={{
+                table:"",
                 thead: "",
                 th: "px-4 py-2"
             }}

@@ -5,6 +5,7 @@ import BotaoEstilizado from "../../ui/botao";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { IntencaoService } from "@/app/services/intencaoService";
+import TextArea from "../../ui/textArea";
 
 export default function FormIntencao() {
     const [erros, setErros] = useState<any[]>([])
@@ -39,8 +40,13 @@ export default function FormIntencao() {
                 <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
                 <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
                 <InputTexto label="Empresa" required={false} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />
-                <InputTexto label="Por quê quer participar?" required={false} value={formDados.motivo_participar} onChange={e => atualizarCampo("motivo_participar", e.target.value)} />
-    
+                <TextArea
+                    label="Por quê quer participar?" 
+                    required={false} 
+                    value={formDados.motivo_participar} 
+                    onChange={e => atualizarCampo("motivo_participar", e.target.value)}
+                />
+
                 <BotaoEstilizado type="submit">Enviar Intenção</BotaoEstilizado>
 
                 {/* Feedback para o usuário */}

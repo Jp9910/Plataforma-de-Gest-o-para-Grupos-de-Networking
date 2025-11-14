@@ -29,7 +29,7 @@ export default function RotaProtegidaMembro({ children }: { children: React.Reac
     }, [router, membroContext]);
 
     if (membroLogado === null)
-        return <div>Verificando se membro está logado...</div>;
+        return (<div className='flex flex-col items-center justify-center'>{/*Verificando se membro está logado...*/}</div>);
 
-    return <>{children}</>;
+    return (<>{children}</>);
 }

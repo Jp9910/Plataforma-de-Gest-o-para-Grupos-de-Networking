@@ -8,6 +8,7 @@ import { useMembro } from "@/app/context/membroContext";
 import { Membros } from "../../ui/types";
 import Select from "../../ui/select";
 import { IndicacaoService } from "@/app/services/indicacaoService";
+import TextArea from "../../ui/textArea";
 
 export default function FormIndicacao(props: {membros: Array<Membros>}) {
     const [erros, setErros] = useState<any[]>([])
@@ -37,10 +38,10 @@ export default function FormIndicacao(props: {membros: Array<Membros>}) {
     }
 
     return (
-        <Form onSubmit={enviarIndicacao} action={""} className="flex flex-col items-center w-80">
+        <Form onSubmit={enviarIndicacao} action={""} className=" w-80">
             <Select label="Escolha um membro" dados={props.membros} onChange={e => atualizarCampo("membroIndicado", e.target.value)}/>
             <InputTexto label="Empresa/Contato Indicado" required={true} value={formDados.empresaContato} onChange={e => atualizarCampo("empresaContato", e.target.value)}/>
-            <InputTexto label="Descricao da oportunidade" required={true} value={formDados.descricao} onChange={e => atualizarCampo("descricao", e.target.value)}/>
+            <TextArea label="Descricao da oportunidade" required={true} value={formDados.descricao} onChange={e => atualizarCampo("descricao", e.target.value)}/>
 
             <BotaoEstilizado type="submit">Enviar</BotaoEstilizado>
 
