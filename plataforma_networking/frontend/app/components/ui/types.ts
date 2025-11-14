@@ -8,3 +8,8 @@ export interface Intencao {
     comentario_admin?: string;
     created_at: string;
 }
+
+export interface MembroDecodificado {
+    idMembro: number;
+    email: string;
+}

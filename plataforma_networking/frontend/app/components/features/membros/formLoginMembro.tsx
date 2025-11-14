@@ -6,12 +6,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid';
 import { TokenService } from "@/app/services/tokenService";
+import { useMembro } from "@/app/context/membroContext";
 
 export default function FormLoginMembro() {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
     const [erros, setErros] = useState<any[]>([])
     const router = useRouter()
+    const membroContext =  useMembro();
 
     async function entrar(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -30,7 +32,10 @@ export default function FormLoginMembro() {
                     console.log("dados",dados)
                     console.log("token:",dados.tokenJwt)
                     TokenService.salvarToken(dados.tokenJwt)
-                    // redirecionar para outra pagina
+
+                    //decodifica o token e salva email e id do membro no sessionStorage
+                    membroContext.decodificarJwt(dados.tokenJwt)
+                    router.replace("/indicacoes/cadastro")
                 }
                 else {
                     console.log(dados)

@@ -4,10 +4,12 @@ import BotaoEstilizado from "../../ui/botao";
 import InputTexto from "../../ui/inputTexto";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { useMembro } from "@/app/context/membroContext";
 
 export default function FormIndicacao() {
     const [erros, setErros] = useState<any[]>([])
     const [mensagem, setMensagem] = useState('')
+    const membroContext = useMembro()
     const [formDados, setFormDados] = useState({
         membroIndicado: "",
         empresaContato: "",
@@ -20,7 +22,7 @@ export default function FormIndicacao() {
         const urlCompleta = "http://".concat(urlApi).concat('/indicacoes/cadastro')
         console.log(urlCompleta)
 
-        fetch(urlCompleta, { method: "POST", body: JSON.stringify(formDados), headers: { "Content-Type": "application/json" } })
+        fetch(urlCompleta, { method: "POST", body: JSON.stringify({...formDados, membroIndicador: membroContext.idMembro}), headers: { "Content-Type": "application/json" } })
             .then((res) => {
                 return res.json()
             }).then((dados) => {

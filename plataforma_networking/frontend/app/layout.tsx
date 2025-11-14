@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { quicksand } from '@/app/components/ui/fonts';
 import './globals.css';
+import { MembroProvider } from './context/membroContext';
 
 export const metadata: Metadata = {
     title: 'Grupo de Networking',
@@ -36,7 +37,9 @@ export default function RootLayout({
                     rounded-2xl
                     h-dvh
                 ">
-                    {children}
+                    <MembroProvider>
+                        {children}
+                    </MembroProvider>
                 </div>
             </body>
         </html>
