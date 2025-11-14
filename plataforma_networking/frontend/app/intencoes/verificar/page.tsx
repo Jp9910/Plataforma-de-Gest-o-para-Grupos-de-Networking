@@ -26,7 +26,7 @@ export default function Page() {
                 console.log(dados)
                 setIntencoes(dados)
             }).catch(error => {
-                console.error("Erro pegando dados dos produtos: ", error)
+                console.error("Erro pegando dados das intenções: ", error)
                 setErro(error)
             }).finally(() => {
                 setLoading(false)

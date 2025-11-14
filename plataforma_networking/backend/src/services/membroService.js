@@ -11,7 +11,7 @@ class MembroService {
      * @returns {Promise<import('pg').QueryResult>} Resultado da query ao banco de dados
      */
     static async buscarMembros() {
-        const result = await pool.query('SELECT * FROM membros ORDER BY created_at DESC');
+        const result = await pool.query('SELECT id,nome,email FROM membros ORDER BY created_at DESC');
         return result
         // const result = await pool.query('SELECT * FROM convites ORDER BY created_at DESC');
         // return result
@@ -38,7 +38,7 @@ class MembroService {
 
         // Generate a JWT token for the authenticated user
         const token = jwt.sign(
-            { email: email },  // guardar dados no token
+            { idMembro: membro.id, email: membro.email },  // guardar dados no token
             process.env.JWT_SECRET,
             { expiresIn: "2h" }
         );

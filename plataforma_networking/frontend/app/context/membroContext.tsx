@@ -28,6 +28,7 @@ export function MembroProvider(props : {children: React.ReactNode}) {
         const membro = {email: membroDecoded.email, id: membroDecoded.idMembro}
         sessionStorage.setItem("email", membro.email)
         sessionStorage.setItem("idMembro", membro.id.toString())
+        sessionStorage.setItem("membroLogado", "true")
         setMembro(membro.email, membro.id)
     }
 

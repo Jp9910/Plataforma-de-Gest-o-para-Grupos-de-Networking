@@ -5,8 +5,10 @@ import InputTexto from "../../ui/inputTexto";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { useMembro } from "@/app/context/membroContext";
+import { Membros } from "../../ui/types";
+import Select from "../../ui/select";
 
-export default function FormIndicacao() {
+export default function FormIndicacao(props: {membros: Array<Membros>}) {
     const [erros, setErros] = useState<any[]>([])
     const [mensagem, setMensagem] = useState('')
     const membroContext = useMembro()
@@ -48,7 +50,7 @@ export default function FormIndicacao() {
 
     return (
         <Form onSubmit={enviarIndicacao} action={""} className="flex flex-col items-center min-w-80">
-            <InputTexto label="Membro Indicado" required={true} value={formDados.membroIndicado} onChange={e => atualizarCampo("membroIndicado", e.target.value)}/>
+            <Select label="Escolha um membro" dados={props.membros} onChange={e => atualizarCampo("membroIndicado", e.target.value)}/>
             <InputTexto label="Empresa/Contato Indicado" required={true} value={formDados.empresaContato} onChange={e => atualizarCampo("empresaContato", e.target.value)}/>
             <InputTexto label="Descricao da oportunidade" required={true} value={formDados.descricao} onChange={e => atualizarCampo("descricao", e.target.value)}/>
 
