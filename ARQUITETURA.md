@@ -13,9 +13,10 @@ Stack proposta:
 - Frontend: **Next.js** e **React**
 - Backend: **Node.js** e **Express**
 - Banco de dados: **Relacional - PostgreSQL** [(Justificativas abaixo)](#Justificativas)
-- Testes: **Jest** + **React Testing Library**
+- Testes front: **Vitest** + **React Testing Library**
+- Testes front: **Jest** + **Supertest** + **Testcontainers**
 
-Autenticação administrativa: Simples via variável de ambiente (Variável `SENHA_ADMIN` definida no arquivo `.env`) para o escopo do teste
+Autenticação administrativa: Simples via variável de ambiente (Variável `SENHA_ADMIN` definida no arquivo `.env` do backend) para o escopo do teste
 
 #### Entregáveis:
 
@@ -52,6 +53,8 @@ Abaixo está o Diagrama Entidade-Relacionamento:
 
 ![Diagrama ER](DiagramaER.png "Diagrama Entidade-Relacionamento")
 
+(Obs: Para permitir administração de múltiplos grupos por sistema, bastaria criar uma tabela `Grupos` e adicionar uma coluna `grupo_id` nas tabelas de `intenções`, `membros`, `comunicados` e `reuniões` para relacioná-los a um grupo. Como a descrição da tarefa refere-se a "um grupo de networking", foi presumido que existe apenas um grupo por sistema.)
+
 - **(3) Organização dos componentes React**
 O projeto está organizado com pastas claras separadas por responsabilidade, e seguindo os novos padrões da versão 16 do next.js.
 A adoção da versão 16 permite o uso do App Router e de layouts aninhados, o que facilita o reaproveitamento e aninhamento de páginas e componentes. Nessa versão, o roteamento é feito a partir do diretório `/app` e usando o nome dos diretórios filhos que contém arquivos `page.tsx`. Então `/app/intencoes/page.tsx` seria acessado por `nomedoapp.com/intencoes`.
@@ -62,6 +65,7 @@ Abaixo está descrita a estrutura de diretórios de forma gráfica:
 /app
     layout.tsx                # layout root
     page.tsx                  # pagina root
+    /context                  # gerenciadores de estado
     /components
         /ui                   # componentes primitivos
             botao
@@ -71,19 +75,19 @@ Abaixo está descrita a estrutura de diretórios de forma gráfica:
             /intencoes
             /indicacoes
                 ...
-        /containers           # componentes que ligam services e hooks à UI
-            ...
     /intencoes                # estrutura de rotas para paginas de intencoes (next.js v16)
         layout
         page
     /indicacoes               # estrutura de rotas para paginas de indicacoes (next.js v16)
         layout
         page
+    /services                 # gerenciadores de requisições http
+        ...
 /public
     ...
-/services
-    ...
 /utils
+    ...
+/__tests__
     ...
 ```
 
@@ -91,13 +95,16 @@ Abaixo está descrita a estrutura de diretórios de forma gráfica:
 
 - **(4) Definição da API** 
 
-GET http://localhost:3000/intencoes
+- 1 - Endpoint: Buscar intenções
+Rota: GET /intencoes
+Parametros: -
+Resposta: 
 
-###
+- 2 - Endpoint: Cadastrar intenção
 POST http://localhost:3000/intencoes
 
-###
-PUT http://localhost:3000/intencoes/5/status
+- 3 - Endpoint: Alterar status de uma intenção
+PUT http://localhost:3000/intencoes/:id/status
 
 
 ---

@@ -2,7 +2,20 @@
 
 Teste técnico para o processo seletivo de desenvolvedor fullstack na AG Sistemas
 
+## Executar o projeto
 
+O jeito mais fácil de rodar o projeto (em modo desenvolvimento) é por meio do Docker.
 
-#### Observação sobre o documento da arquitetura: 
-Talvez o documento da arquitetura esteja mais detalhado do que o necessário, mas como eu havia o conhecimento e o gosto pela área de arquitetura de software, optei por fazer algo mais elaborado e detalhado. Contudo, também inclui as informações mais importantes em um resumo.
+Depois disso, basta clonar o repositório, e em um terminal navegar até a raiz do projeto e executar no terminal:
+
+> docker-compose up -d
+
+Isso irá iniciar o banco de dados, o backend e o frontend, podendo levar 1 ou 2 minutos. Por rodar em modo build, algumas páginas podem demorar alguns segundos a mais para carregar na primeira vez que forem acessadas.
+
+Normalmente seria necessário configurar arquivos de ambiente (.env) mas por conveniência, deixei arquivos .env.public no repositório, que são usados na build de desenvolvimento feita com o docker.
+
+## Executar os testes
+
+Para iniciar os testes no backend, basta navegar para /projeto/backend e executar no terminal:
+
+> npm test

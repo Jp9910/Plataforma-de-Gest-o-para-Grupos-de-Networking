@@ -1,0 +1,49 @@
+name: plataforma-networking
+
+services:
+  frontend:
+    image: node:22-alpine
+    container_name: front
+    volumes:
+      - ./plataforma_networking/frontend:/app/
+      - ./plataforma_networking/frontend/.env.public:/app/.env
+    working_dir: /app
+    command: >
+      sh -c "npm install &&
+             npm run dev"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    image: node:22-alpine
+    volumes:
+      - ./plataforma_networking/backend/src:/app/src
+      - ./plataforma_networking/backend/package.json:/app/package.json
+    working_dir: /app
+    command: >
+      sh -c "npm install &&
+             npm run dev"
+    env_file: "./plataforma_networking/backend/.env.public"
+    ports:
+      - 3001:3001
+    depends_on:
+      - db-postgres
+
+  db-postgres:
+    image: postgres:17
+    env_file: "./plataforma_networking/backend/.env.postgres.public"
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./plataforma_networking/backend/initBD:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+volumes:
+  db-data:
