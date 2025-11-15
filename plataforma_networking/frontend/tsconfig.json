@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "types": ["vitest/jsdom","vitest/globals","@testing-library/jest-dom"], // permite as funcoes de teste (describe, test, etc) sem import
         "target": "ES2017",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,

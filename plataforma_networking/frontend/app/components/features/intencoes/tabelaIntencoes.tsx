@@ -2,16 +2,13 @@
 import { TableComponent } from "nextjs-reusable-table";
 import { useState } from "react";
 import BotaoEstilizado from "../../ui/botao";
-import { Intencao } from "../../ui/types";
+import { Intencao } from "../../../types";
 import { IntencaoService } from "@/app/services/intencaoService";
 
 const columns = ["ID", "Nome", "Email", "Empresa", "Motivo de participar", "Status", "Criado Em", "Ações"];
 
 const TabelaIntencoes = (props: { dados: Intencao[] }) => {
     const [atualizou, setAtualizou] = useState(false)
-    const enderecoApi = process.env.NEXT_PUBLIC_URL_API || ""
-    const URL = "http://".concat(enderecoApi).concat('/intencoes')
-    console.log(URL)
 
     const alterarStatus = async (intencao: Intencao, aprovar: boolean) => {
         let conteudoReq = { "bool_aprovar": false }

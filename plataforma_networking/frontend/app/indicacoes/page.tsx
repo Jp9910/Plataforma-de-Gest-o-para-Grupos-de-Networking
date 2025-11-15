@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import TabelaIndicacoes from "../components/features/indicacoes/tabelaIndicacoes";
-import { IndicacoesDoMembro } from "../components/ui/types";
+import { IndicacoesDoMembro } from "../types";
 import { IndicacaoService } from "../services/indicacaoService";
 
 export default function Page() {

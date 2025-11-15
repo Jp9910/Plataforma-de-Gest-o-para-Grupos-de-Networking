@@ -1,6 +1,6 @@
 'use client'
 import FormIndicacao from "@/app/components/features/indicacoes/formIndicacao";
-import { Membros } from "@/app/components/ui/types";
+import { Membros } from "@/app/types";
 import { MembroService } from "@/app/services/membroService";
 import { useEffect, useState } from "react";
 

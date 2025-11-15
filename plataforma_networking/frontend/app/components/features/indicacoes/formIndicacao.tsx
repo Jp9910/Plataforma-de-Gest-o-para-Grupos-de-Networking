@@ -5,7 +5,7 @@ import InputTexto from "../../ui/inputTexto";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { useMembro } from "@/app/context/membroContext";
-import { Membros } from "../../ui/types";
+import { Membros } from "../../../types";
 import Select from "../../ui/select";
 import { IndicacaoService } from "@/app/services/indicacaoService";
 import TextArea from "../../ui/textArea";

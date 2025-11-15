@@ -2,7 +2,7 @@
 import { createContext, useState, useContext } from 'react';
 import { TokenService } from '../services/tokenService';
 import { jwtDecode } from 'jwt-decode';
-import { MembroDecodificado } from '../components/ui/types';
+import { MembroDecodificado } from '../types';
 
 const MembroContext = createContext({
     email: "",

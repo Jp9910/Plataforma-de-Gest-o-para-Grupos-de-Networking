@@ -1,7 +1,7 @@
 'use client'
 
 import { TableComponent } from "nextjs-reusable-table";
-import { Indicacao } from "../../ui/types";
+import { Indicacao } from "../../../types";
 import BotaoEstilizado from "../../ui/botao";
 import Select from "../../ui/select";
 import { IndicacaoService } from "@/app/services/indicacaoService";

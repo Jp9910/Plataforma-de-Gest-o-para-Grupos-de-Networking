@@ -1,7 +1,7 @@
 'use client';
 
 import TabelaIntencoes from "@/app/components/features/intencoes/tabelaIntencoes";
-import { Intencao } from "@/app/components/ui/types";
+import { Intencao } from "@/app/types";
 import { IntencaoService } from "@/app/services/intencaoService";
 import { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ export default function Page() {
     useEffect(() => {
         IntencaoService.buscarTodasIntencoes<Intencao[]>()
             .then((dados) => {
-                console.log(dados)
+                // console.log(dados)
                 setIntencoes(dados)
             }).catch(error => {
                 console.error("Erro pegando dados das intenções: ", error)
@@ -30,7 +30,7 @@ export default function Page() {
             <div className="border border-gray-300 rounded-md shadow-sm">
                 <TabelaIntencoes dados={intencoes} />
             </div>
-            {loading && <div className="flex flex-col justify-center items-center">
+            {loading && <div data-testid="div-loading" className="flex flex-col justify-center items-center">
                             Carregando
                             <img src="/loading.gif" width="200" height="200" alt="loading-gif" id="img-loading"></img>
                         </div> 
