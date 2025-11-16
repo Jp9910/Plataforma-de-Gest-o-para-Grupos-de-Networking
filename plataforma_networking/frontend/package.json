@@ -12,7 +12,6 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "jwt-decode": "^4.0.0",
-    "msw": "^2.12.2",
     "next": "16.0.2",
     "nextjs-reusable-table": "^4.0.8",
     "react": "19.2.0",
@@ -33,6 +32,7 @@
     "eslint-config-next": "16.0.2",
     "happy-dom": "^20.0.10",
     "jsdom": "^27.2.0",
+    "msw": "^2.12.2",
     "prettier": "^3.6.2",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",

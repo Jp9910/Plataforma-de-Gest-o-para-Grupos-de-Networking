@@ -18,9 +18,9 @@ Stack proposta:
 
 Autenticação administrativa: Simples via variável de ambiente (Variável `SENHA_ADMIN` definida no arquivo `.env` do backend) para o escopo do teste
 
-#### Entregáveis:
+## Entregáveis:
 
-- **(1) Diagrama de Componentes da aplicação**
+#### **(1) Diagrama de Componentes da aplicação**
 
 ```mermaid
 ---
@@ -45,7 +45,7 @@ flowchart LR
     DB -->|Dados em tabela| API
 ```
 
-- **(2) Modelo de dados da aplicação**
+#### **(2) Modelo de dados da aplicação**
 O modelo de dados da aplicação é relacional, com banco de dados PostgreSQL. [(Justificativas abaixo)](#Justificativas)
 O script SQL usado para criação das tabelas está em `plataforma_networking/backend/initDB/001_schema.sql`
 
@@ -55,8 +55,8 @@ Abaixo está o Diagrama Entidade-Relacionamento:
 
 (Obs: Para permitir administração de múltiplos grupos por sistema, bastaria criar uma tabela `Grupos` e adicionar uma coluna `grupo_id` nas tabelas de `intenções`, `membros`, `comunicados` e `reuniões` para relacioná-los a um grupo. Como a descrição da tarefa refere-se a "um grupo de networking", foi presumido que existe apenas um grupo por sistema.)
 
-- **(3) Organização dos componentes React**
-O projeto está organizado com pastas claras separadas por responsabilidade, e seguindo os novos padrões da versão 16 do next.js.
+#### **(3) Organização dos componentes React**
+O projeto está organizado com pastas claras separadas por responsabilidade, com arquivos de teste ao lado de cada componente, e seguindo os novos padrões da versão 16 do next.js.
 A adoção da versão 16 permite o uso do App Router e de layouts aninhados, o que facilita o reaproveitamento e aninhamento de páginas e componentes. Nessa versão, o roteamento é feito a partir do diretório `/app` e usando o nome dos diretórios filhos que contém arquivos `page.tsx`. Então `/app/intencoes/page.tsx` seria acessado por `nomedoapp.com/intencoes`.
 
 Abaixo está descrita a estrutura de diretórios de forma gráfica:
@@ -71,45 +71,112 @@ Abaixo está descrita a estrutura de diretórios de forma gráfica:
             botao
             inputTexto
             select
+            ...
         /features             # componentes separados por domínio
             /intencoes
+                ...
             /indicacoes
                 ...
-    /intencoes                # estrutura de rotas para paginas de intencoes (next.js v16)
-        layout
-        page
-    /indicacoes               # estrutura de rotas para paginas de indicacoes (next.js v16)
-        layout
-        page
+            /intencoes
+                ...
+            /membros
+                ...
+    /intencoes                # rotas para paginas de intencoes (nova estrutura de rotas next.js v16)
+        ...
+    /indicacoes               # rotas para paginas de indicacoes
+        ...
+    /login                    # rotas para paginas de login
+        ...
+    /membros                  # rotas para paginas de membros
+        ...
     /services                 # gerenciadores de requisições http
         ...
 /public
     ...
 /utils
     ...
-/__tests__
-    ...
 ```
 
-<!-- ![Diagrama Frontend](DiagramaFront.png "Organização dos componentes React") -->
+#### **(4) Definição da API** 
 
-- **(4) Definição da API** 
+A documentação para alguns endpoints está descrita a seguir, podendo também ser vista numa página no navegador, construida pela biblioteca swagger. Para ver a página basta iniciar o backend e acessar a rota `/api-docs` (por ex.: localhost:3001/api-docs). A especificação usada pelo swagger para construir a página está no arquivo `backend/src/swagger.js`.
 
 - 1 - Endpoint: Buscar intenções
+```
 Rota: GET /intencoes
 Parametros: -
-Resposta: 
+Respostas: [
+    Código: 200,
+    Descrição: Lista de intenções
+    Tipo: Application/json
+    Formato: {
+        id: int,
+        nome: string,
+        email: string,
+        empresa: string,
+        motivo_participar: string,
+        status: string,
+        created_at: string (data no formato ISO)
+    }
+]
+```
 
 - 2 - Endpoint: Cadastrar intenção
-POST http://localhost:3000/intencoes
+```
+Rota: POST /intencoes
+Parametros: -
+Corpo (obrigatório): {
+    "nome": string,
+    "email": string,
+    "empresa": string,
+    "motivo_participar": string
+}
+Respostas: [
+    Código: 201,
+    Descrição: Intenção cadastrada com sucesso
+    Tipo: Application/json
+    Formato: {
+        id: int,
+        nome: string,
+        email: string,
+        empresa: string,
+        motivo_participar: string,
+        status: string,
+        created_at: string (data no formato ISO)
+    },
+
+    Código: 400,
+    Descrição: Erro de validação
+    Tipo: Application/json
+    Formato: {
+        errors: string[],
+        status: int
+    }
+]
+```
 
 - 3 - Endpoint: Alterar status de uma intenção
-PUT http://localhost:3000/intencoes/:id/status
+```
+Rota: PUT /intencoes/{id}/status
+Parametros: {id: int}
+Corpo (obrigatório): {
+    "bool_aprovar": boolean
+}
+Respostas: [
+    {Código: 204,
+    Descrição: Status alterado com sucesso},
+
+    {Código 400,
+    Descrição: Erro de validação},
+
+    {Código 404,
+    Intenção não encontrada}
+]
+```
 
 
 ---
 # Descrição da arquitetura do software
-
 
 ## 1. Ponto de vista (viewpoint) - Estrutura da aplicação
 
@@ -154,7 +221,7 @@ Funcionalidade, uso, propriedades do sistema, limitações conhecidas, estrutura
 ###### **Consequências**: 
 - Dados são relacionados mais facilmente; 
 - criação de dashboards e relatórios mais facilmente; 
-- criação e comunicação com o banco de dados menos facilmente. 
+- criação e comunicação com o banco de dados menos facilmente (do que com SQLite). 
 
 ###### **Tempos da decisão**: 
 - Decisão tomada e aprovada antes da fase de implementação do sistema. Não foi alterada.

@@ -16,6 +16,14 @@ Normalmente seria necessário configurar arquivos de ambiente (.env) mas por con
 
 ## Executar os testes
 
-Para iniciar os testes no backend, basta navegar para /projeto/backend e executar no terminal:
+Para iniciar os testes no backend, é preciso iniciar o Docker (para os testes de integração), e após isso navegar para /projeto/backend e executar no terminal:
 
+> npm install
 > npm test
+
+Para iniciar os testes no frontend, basta navegar para /projeto/frontend e executar no terminal:
+
+> npm install
+> npm test
+
+(Obs: No frontend, é possível que o Vitest acuse de não estar conseguindo localizar a biblioteca happy-dom para os testes, e sugerirá instalá-la, mas basta apertar N para recusar a instalação e os testes funcionarão normalmente. Não sei explicar porque isso acontece, talvez seja um problema em alguma biblioteca)
