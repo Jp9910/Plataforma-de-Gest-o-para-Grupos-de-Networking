@@ -10,7 +10,7 @@ Primeiro instale o Docker (https://docs.docker.com/engine/install/). Depois diss
 
 > docker-compose up -d
 
-Isso irá iniciar o banco de dados, o backend e o frontend, podendo levar 1 ou 2 minutos. Por rodar em modo build, algumas páginas podem demorar alguns segundos a mais para carregar na primeira vez que forem acessadas.
+Isso irá iniciar o banco de dados, o backend e o frontend, podendo levar entre 1 a 4 minutos para terminar a inicialização. Por rodar em modo dev, algumas páginas podem demorar alguns segundos a mais para carregar na primeira vez que forem acessadas. Após terminar a inicialização, pode-se acessar `http://localhost:3000` no navegador para utilizar a plataforma.
 
 Normalmente seria necessário configurar arquivos de ambiente (.env) mas por conveniência, deixei arquivos .env.public no repositório, que são usados na build de desenvolvimento feita com o docker.
 
