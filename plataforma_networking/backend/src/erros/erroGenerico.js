@@ -1,18 +1,18 @@
 class ErroGenerico extends Error {
 
     message;
-    statusCode;
+    status;
 
-    constructor(mensagem = "Erro interno do servidor", statusCode = 500) {
+    constructor(mensagem = "Erro interno do servidor", status = 500) {
         super();
         this.message = mensagem;
-        this.statusCode = statusCode;
+        this.status = status;
     }
 
     enviarResposta(res) {
-        res.status(this.statusCode).send({
+        res.status(this.status).send({
             errors: [{message: this.message}],
-            statusCode: this.statusCode
+            status: this.status
         });
     }
 }

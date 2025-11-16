@@ -2,8 +2,8 @@ import ErroGenerico from "./erroGenerico.js";
 
 class ErroNaoEncontrado extends ErroGenerico {
 
-    constructor(mensagem = "Contéudo não encontrado", statusCode = 404) {
-        super(mensagem, statusCode)
+    constructor(mensagem = "Contéudo não encontrado", status = 404) {
+        super(mensagem, status)
     }
 }
 
