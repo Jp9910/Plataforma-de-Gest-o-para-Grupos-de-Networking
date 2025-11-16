@@ -1,7 +1,6 @@
 import { act, cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import TabelaIntencoes from '@/app/components/features/intencoes/tabelaIntencoes';
-import { vi } from 'vitest';
 import { Intencao } from '@/app/types';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
@@ -16,11 +15,7 @@ describe('Tabela de intencoes (integração)', () => {
     ];
     afterEach(() => {
         cleanup()
-    })
-    afterAll(() => {
-        vi.unstubAllGlobals();
-        vi.restoreAllMocks();
-    })
+    });
 
     test('mostra os dados das intenções na tabela', async () => {
         render(<TabelaIntencoes dados={dadosMock} />);
@@ -63,7 +58,6 @@ describe('Tabela de intencoes (integração)', () => {
     test('mostra aviso de nenhum dado quando não tem intencoes', async () => {
         render(<TabelaIntencoes dados={[]} />);
 
-        // aguarda terminar loading
         await waitFor(() => expect(screen.getByRole('img', { name: "No data" })).toBeInTheDocument());
         expect(screen.getByRole('paragraph')).toHaveTextContent('Nenhuma intenção cadastrada');
     });

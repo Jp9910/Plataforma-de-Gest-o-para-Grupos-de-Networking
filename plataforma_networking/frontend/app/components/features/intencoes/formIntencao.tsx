@@ -20,7 +20,6 @@ export default function FormIntencao() {
     async function enviarForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const resp = await IntencaoService.enviarFormIntencao(formDados)
-        console.log("resp:", resp)
         if (!resp.errors) {
             setErros([])
             setMensagem('Intenção cadastrada com sucesso! Um convite será enviado ao seu email caso seja aprovada.')

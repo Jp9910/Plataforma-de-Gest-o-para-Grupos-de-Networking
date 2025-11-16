@@ -9,9 +9,10 @@ export default function InputTexto({label = '', className = '', ...props }: Prop
 
     return (
         <div className="flex flex-col">
-            {label && <label className="text-sm -mb-2">{label}</label>}
+            {label && <label id={`label-${label}`} className="text-sm -mb-2">{label}</label>}
             <input
                 type="text"
+                aria-labelledby={`label-${label}`}
                 className={clsx("outline-2 outline-blue-400 rounded-md py-1 my-2", className)}
                 {...props}
             />
