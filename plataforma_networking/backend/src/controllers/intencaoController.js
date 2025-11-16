@@ -49,11 +49,12 @@ class IntencaoController {
             const result = await intencaoService.alterarStatusIntencaoECriarConvite(idIntencao, !!bool_aprovar);
 
             // caso o convite tenha sido criado, simular envio de e-mail (será apenas um console.log)
-            if (result.convite) {
-                intencaoService.enviarEmailDeConvite(result.convite.token)
+            const token = result.convite ? result.convite.token : null
+            if (token) {
+                intencaoService.enviarEmailDeConvite(token)
             }
 
-            res.status(204).json({"message": "Status alterado com sucesso"});
+            res.status(201).json({"token": token, "message": "Status alterado com sucesso"});
         } catch (err) {
             console.error('Erro ao alterar status da intenção:', err);
             next(err)

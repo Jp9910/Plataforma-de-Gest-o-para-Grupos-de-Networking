@@ -18,7 +18,12 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
         // console.log(res)
         if (res && res.ok) {
             intencao.status = aprovar ? "Aprovada" : "Rejeitada"
-            if (antes !== intencao.status) setAtualizou(!atualizou)
+            if (antes !== intencao.status) {
+                setAtualizou(!atualizou)
+            }
+            // imprimir o token retornado da api
+            const dados = await res.json()
+            console.log(`http://localhost:3000/membros/cadastro/${dados.token}`)
         }
     };
 

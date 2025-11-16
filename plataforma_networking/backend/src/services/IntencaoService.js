@@ -109,7 +109,7 @@ class IntencaoService {
      * @param {string} token Token do link de convite
      */
     static async enviarEmailDeConvite(token) {
-        const urlConvite = `https://app.exemplo.com/convite/${token}`;
+        const urlConvite = `http://localhost:3000/membros/cadastro/${token}`;
         console.log('URL do convite a ser enviada por email:', urlConvite);
     }
 }
