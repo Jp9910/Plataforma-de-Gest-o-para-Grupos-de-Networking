@@ -12,10 +12,11 @@ const TabelaIntencoes = (props: { dados: Intencao[] }) => {
 
     const alterarStatus = async (intencao: Intencao, aprovar: boolean) => {
         let conteudoReq = { "bool_aprovar": false }
-        if (aprovar) conteudoReq = { "bool_aprovar": true }
+        if (aprovar) conteudoReq.bool_aprovar = true
         const antes = intencao.status
         const res = await IntencaoService.alterarStatusIntencao(intencao.id, conteudoReq)
-        if (res.ok) {
+        // console.log(res)
+        if (res && res.ok) {
             intencao.status = aprovar ? "Aprovada" : "Rejeitada"
             if (antes !== intencao.status) setAtualizou(!atualizou)
         }

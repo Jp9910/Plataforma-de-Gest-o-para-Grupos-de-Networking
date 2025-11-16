@@ -14,7 +14,6 @@ export default function InputTexto({label = '', className = '', ...props }: Prop
                 type="text"
                 className={clsx("outline-2 outline-blue-400 rounded-md py-1 my-2", className)}
                 {...props}
-                data-testid="input-texto"
             />
         </div>
     )
