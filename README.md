@@ -16,6 +16,8 @@ Normalmente seria necessário configurar arquivos de ambiente (.env) mas por con
 
 *Sobre o cadastro de membro: Após aprovar uma intenção, um token será gerado para o cadastro do membro, e um link com esse token será impresso no console do container do backend e também no console do navegador, no formato `http://localhost:3000/membros/cadastro/<token_de_cadastro>`. Para cadastrar o membro, é necessário usar esse link.
 
+*Senha padrão de administrador: 123
+
 ## Executar os testes
 
 Para iniciar os testes no backend, é preciso iniciar o Docker (para os testes de integração), e após isso navegar para /projeto/backend e executar no terminal:
