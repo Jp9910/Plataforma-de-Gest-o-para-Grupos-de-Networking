@@ -23,6 +23,7 @@ export default function FormIntencao() {
         if (!resp.errors) {
             setErros([])
             setMensagem('Intenção cadastrada com sucesso! Um convite será enviado ao seu email caso seja aprovada.')
+            resetarCampo()
         }
         else {
             setMensagem('Erro:')
@@ -32,6 +33,13 @@ export default function FormIntencao() {
 
     function atualizarCampo(campo: string, valor: any) {
         setFormDados(prev => ({ ...prev, [campo]: valor }));
+    }
+
+    function resetarCampo() {
+        atualizarCampo("nome", "")
+        atualizarCampo("email", "")
+        atualizarCampo("empresa", "")
+        atualizarCampo("motivo_participar", "")
     }
 
     return (

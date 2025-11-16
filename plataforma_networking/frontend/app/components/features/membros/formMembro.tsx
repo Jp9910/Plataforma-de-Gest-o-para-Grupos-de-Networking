@@ -23,8 +23,9 @@ export default function FormMembro(props: {token: string|undefined}) {
         event.preventDefault();
         const resp = await MembroService.enviarFormMembro(formDados)
         if (!resp.errors) {
-            setMensagem('Cadastrado com sucesso!')
+            setMensagem('Cadastrado com sucesso! Faça seu login na página de login de membro.')
             setErros([])
+            resetarCampos()
         }
         else {
             setMensagem('Erro:')
@@ -36,22 +37,22 @@ export default function FormMembro(props: {token: string|undefined}) {
         setFormDados(prev => ({ ...prev, [campo]: valor }));
     }
 
+    function resetarCampos() {
+        atualizarCampo("nome", "")
+        atualizarCampo("email", "")
+        atualizarCampo("senha", "")
+        atualizarCampo("empresa", "")
+        atualizarCampo("telefone", "")
+        atualizarCampo("cargo", "")
+    }
+
     return (
         <Form onSubmit={enviarForm} action={""} className="w-80">
             <InputTexto label="Nome*" required={true} value={formDados.nome} onChange={e => atualizarCampo("nome", e.target.value)} />
             <InputTexto label="Email*" required={true} value={formDados.email} onChange={e => atualizarCampo("email", e.target.value)} />
-            <InputTexto label="Senha*" required={true} value={formDados.senha} onChange={e => atualizarCampo("senha", e.target.value)} />
+            <InputTexto type="password" label="Senha*" required={true} value={formDados.senha} onChange={e => atualizarCampo("senha", e.target.value)} />
             <InputTexto label="Empresa" required={false} value={formDados.empresa} onChange={e => atualizarCampo("empresa", e.target.value)} />
-            <div className="flex flex-col">
-                <label className="text-sm -mb-2">Telefone (formato: (11)912345678)</label>
-                <input 
-                    type="tel"
-                    pattern="([0-9]{2})[0-9]{9}"
-                    className="outline-2 outline-blue-400 rounded-md py-1 my-2"
-                    value={formDados.telefone} 
-                    onChange={e => atualizarCampo("telefone", e.target.value)}
-                />
-            </div>
+            <InputTexto label="Telefone" required={false} value={formDados.telefone} onChange={e => atualizarCampo("telefone", e.target.value)} />
             <InputTexto label="Cargo" required={false} value={formDados.cargo} onChange={e => atualizarCampo("cargo", e.target.value)} />
             <InputTexto disabled={true} label="Código para cadastro*" required={true} value={formDados.token} className="bg-gray-700 text-gray-400" />
             <BotaoEstilizado type="submit">Efetuar Cadastro</BotaoEstilizado>

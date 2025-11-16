@@ -34,7 +34,7 @@ export default function FormLoginMembro() {
     return (
         <Form onSubmit={entrar} action={""} className="flex flex-col items-center">
             <InputTexto label="Email" required={true} value={email} onChange={e => setEmail(e.target.value)}/>
-            <InputTexto label="Senha" required={true} value={senha} onChange={e => setSenha(e.target.value)}/>
+            <InputTexto label="Senha" type="password" required={true} value={senha} onChange={e => setSenha(e.target.value)}/>
             <BotaoEstilizado type="submit">Entrar</BotaoEstilizado>
 
             {/* Feedback para o usuário */}

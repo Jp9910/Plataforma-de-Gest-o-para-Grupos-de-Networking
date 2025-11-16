@@ -27,7 +27,7 @@ export default function FormLoginAdmin() {
 
     return (
         <Form onSubmit={entrar} action={""} className="flex flex-col items-center">
-            <InputTexto label="Senha" required={true} value={senha} onChange={e => setSenha(e.target.value)}/>
+            <InputTexto label="Senha" type="password" required={true} value={senha} onChange={e => setSenha(e.target.value)}/>
             <BotaoEstilizado type="submit">Entrar</BotaoEstilizado>
             {mensagem && <p>{mensagem}</p>}
         </Form>

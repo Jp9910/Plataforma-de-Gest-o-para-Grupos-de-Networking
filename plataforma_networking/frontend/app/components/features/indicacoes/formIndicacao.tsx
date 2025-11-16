@@ -26,6 +26,7 @@ export default function FormIndicacao(props: {membros: Array<Membros>}) {
         if (!resp.errors) {
             setErros([])
             setMensagem('Indicação cadastrada com sucesso!')
+            resetarCampos()
         } else {
             setMensagem('Erro:')
             setErros(resp.errors)
@@ -35,6 +36,11 @@ export default function FormIndicacao(props: {membros: Array<Membros>}) {
     function atualizarCampo(campo: string, valor: any) {
         setFormDados(prev => ({ ...prev, [campo]: valor }));
         // console.log(formDados)
+    }
+
+    function resetarCampos() {
+        atualizarCampo("empresaContato", "");
+        atualizarCampo("descricao", "");
     }
 
     return (
