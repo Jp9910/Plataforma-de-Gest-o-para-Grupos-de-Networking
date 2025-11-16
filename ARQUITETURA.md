@@ -14,7 +14,7 @@ Stack proposta:
 - Backend: **Node.js** e **Express**
 - Banco de dados: **Relacional - PostgreSQL** [(Justificativas abaixo)](#Justificativas)
 - Testes front: **Vitest** + **React Testing Library**
-- Testes front: **Jest** + **Supertest** + **Testcontainers**
+- Testes back: **Jest** + **Supertest** + **Testcontainers**
 
 Autenticação administrativa: Simples via variável de ambiente (Variável `SENHA_ADMIN` definida no arquivo `.env` do backend) para o escopo do teste
 
